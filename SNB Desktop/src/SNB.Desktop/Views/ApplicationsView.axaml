@@ -1,0 +1,373 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:models="clr-namespace:SNB.Desktop.Models"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             x:Class="SNB.Desktop.Views.ApplicationsView"
+             x:DataType="vm:ApplicationsViewModel"
+             VerticalAlignment="Stretch">
+
+    <!-- Vertical flex: padded content region + footer action bar -->
+    <Grid RowDefinitions="*,Auto" Background="{StaticResource SurfaceTintBrush}">
+
+        <Grid Grid.Row="0"
+              RowDefinitions="Auto,Auto,Auto,Auto,*"
+              RowSpacing="16"
+              Margin="24,16,24,16">
+
+            <!-- Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                <StackPanel Spacing="4" VerticalAlignment="Center">
+                    <TextBlock Text="Applications"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource OnSurfaceBrush}" />
+                    <TextBlock Text="Review installed apps, filter bloatware, and remove selected packages."
+                               FontSize="13"
+                               Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+                    <Button Classes="Secondary"
+                            Padding="12,8"
+                            MinHeight="36"
+                            Command="{Binding ExportCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <PathIcon Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryContainerBrush}"
+                                      Data="{StaticResource IconDownload}" />
+                            <TextBlock Text="Export"
+                                       FontSize="13"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Classes="Secondary"
+                            Padding="12,8"
+                            MinHeight="36"
+                            Command="{Binding ScanAgainCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <PathIcon Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconAutorenew}" />
+                            <TextBlock Text="Scan Again"
+                                       FontSize="13"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Stats (compact inline strip) -->
+            <Border Grid.Row="1"
+                    Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource SubtleOutlineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="22,14">
+                <Grid ColumnDefinitions="*,Auto,*,Auto,*">
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal" Spacing="12"
+                                Margin="6,0,0,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Border Width="40" Height="40" CornerRadius="10" Background="#EFF6FF">
+                            <PathIcon Width="20" Height="20"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Foreground="#60A5FA"
+                                      Data="{StaticResource IconApps}" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="{Binding Statistics.TotalApps}"
+                                       FontSize="20" FontWeight="Bold"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+                            <TextBlock Text="Total Apps"
+                                       FontSize="12"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border Grid.Column="1" Width="1" Height="34" VerticalAlignment="Center"
+                            Background="{StaticResource SubtleDividerBrush}" />
+
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal" Spacing="12"
+                                Margin="20,0,0,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Border Width="40" Height="40" CornerRadius="10" Background="#FFF1F2">
+                            <PathIcon Width="20" Height="20"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Foreground="#FB7185"
+                                      Data="{StaticResource IconDeleteSweep}" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="{Binding Statistics.RecommendedRemoval}"
+                                       FontSize="20" FontWeight="Bold"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+                            <TextBlock Text="Recommended Removal"
+                                       FontSize="12"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border Grid.Column="3" Width="1" Height="34" VerticalAlignment="Center"
+                            Background="{StaticResource SubtleDividerBrush}" />
+
+                    <StackPanel Grid.Column="4"
+                                Orientation="Horizontal" Spacing="12"
+                                Margin="20,0,0,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Border Width="40" Height="40" CornerRadius="10" Background="#FFFBEB">
+                            <PathIcon Width="20" Height="20"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Foreground="#FBBF24"
+                                      Data="{StaticResource IconAutorenew}" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="{Binding Statistics.AppsWithAlternatives}"
+                                       FontSize="20" FontWeight="Bold"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+                            <TextBlock Text="Apps with Alternatives"
+                                       FontSize="12"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Filter tabs -->
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource SubtleDividerBrush}"
+                    BorderThickness="0,0,0,1"
+                    Margin="0,4,0,2">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <RadioButton Classes="Tab"
+                                 Content="All Apps"
+                                 GroupName="AppTabs"
+                                 IsChecked="{Binding SelectedTab, Mode=OneWay, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:TabFilter.AllApps}}"
+                                 Command="{Binding ChangeTabCommand}"
+                                 CommandParameter="{x:Static models:TabFilter.AllApps}" />
+
+                    <RadioButton Classes="Tab"
+                                 Content="Recommended Removal"
+                                 GroupName="AppTabs"
+                                 IsChecked="{Binding SelectedTab, Mode=OneWay, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:TabFilter.RecommendedRemoval}}"
+                                 Command="{Binding ChangeTabCommand}"
+                                 CommandParameter="{x:Static models:TabFilter.RecommendedRemoval}" />
+
+                    <RadioButton Classes="Tab"
+                                 Content="Apps with Alternatives"
+                                 GroupName="AppTabs"
+                                 Margin="0"
+                                 IsChecked="{Binding SelectedTab, Mode=OneWay, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:TabFilter.AppsWithAlternatives}}"
+                                 Command="{Binding ChangeTabCommand}"
+                                 CommandParameter="{x:Static models:TabFilter.AppsWithAlternatives}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Search + Filter + Sort -->
+            <Grid Grid.Row="3" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                <TextBox Grid.Column="0"
+                         Classes="Search Toolbar"
+                         Watermark="Search apps by name or package name..."
+                         Text="{Binding SearchText}">
+                    <TextBox.InnerLeftContent>
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Margin="10,0,0,0"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconSearch}" />
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <Button Grid.Column="1"
+                        Classes="Secondary Toolbar"
+                        Padding="12,8"
+                        MinHeight="36">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <PathIcon Width="14"
+                                  Height="14"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconFilter}" />
+                        <TextBlock Text="Filter"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                        <PathIcon Width="14"
+                                  Height="14"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconChevronDown}" />
+                    </StackPanel>
+                </Button>
+
+                <ComboBox Grid.Column="2"
+                          Classes="Toolbar"
+                          MinWidth="168"
+                          ItemsSource="{Binding SortOptions}"
+                          SelectedItem="{Binding SelectedSort}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:AppSortOption">
+                            <TextBlock FontSize="13"
+                                       Text="{Binding Converter={x:Static conv:AppSortOptionDisplayConverter.Instance}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
+            <!-- App grid -->
+            <ScrollViewer x:Name="AppGridScrollViewer"
+                          Grid.Row="4"
+                          Padding="0,0,12,0"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Applications}"
+                              Margin="0"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Top">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Top" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:ApplicationItemModel">
+                            <Border Classes="AppCard"
+                                    Classes.selected="{Binding IsSelected}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Top"
+                                    Margin="0,0,14,14">
+                                <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto"
+                                      ColumnSpacing="10"
+                                      VerticalAlignment="Center">
+
+                                    <CheckBox Grid.Column="0"
+                                              Classes="AppSelect"
+                                              IsChecked="{Binding IsSelected}"
+                                              VerticalAlignment="Center" />
+
+                                    <Border Grid.Column="1"
+                                            Width="40"
+                                            Height="40"
+                                            CornerRadius="8"
+                                            ClipToBounds="True"
+                                            VerticalAlignment="Center">
+                                        <Panel>
+                                            <Image Stretch="UniformToFill"
+                                                   Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+                                            <Image Stretch="UniformToFill"
+                                                   Source="{Binding IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+                                        </Panel>
+                                    </Border>
+
+                                    <StackPanel Grid.Column="2"
+                                                Spacing="2"
+                                                Margin="0,0,8,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding AppName}"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                                   TextWrapping="NoWrap"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding PackageName}"
+                                                   FontFamily="{StaticResource MonoFontFamily}"
+                                                   FontSize="11"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   TextWrapping="NoWrap"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+
+                                    <controls:CategoryBadge Grid.Column="3"
+                                                            Category="{Binding Category}"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center" />
+
+                                    <Button Grid.Column="4"
+                                            Classes="CardMenu"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding $parent[ItemsControl].((vm:ApplicationsViewModel)DataContext).OpenDetailsCommand}"
+                                            CommandParameter="{Binding}">
+                                        <PathIcon Width="16"
+                                                  Height="16"
+                                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                  Data="{StaticResource IconMore}" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Footer action bar -->
+        <Border Grid.Row="1"
+                Classes="AppListFooter"
+                Margin="20,0,20,16"
+                Padding="16,12"
+                MinHeight="56">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            Spacing="12"
+                            VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="13"
+                               Foreground="{StaticResource OnSurfaceVariantBrush}"
+                               Text="{Binding Applications.Count, StringFormat='{}{0} apps found'}" />
+                    <Border Width="1"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource SubtleDividerBrush}" />
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="13"
+                               Foreground="{StaticResource OnSurfaceVariantBrush}"
+                               Text="{Binding SelectedCount, StringFormat='{}{0} selected'}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="16"
+                            VerticalAlignment="Center">
+                    <Button Classes="Link"
+                            Padding="4,6"
+                            Foreground="{StaticResource PrimaryBrush}"
+                            Content="Deselect All"
+                            Command="{Binding DeselectAllCommand}" />
+
+                    <Button Classes="RemoveSelected"
+                            IsEnabled="{Binding HasSelectedItems}"
+                            Command="{Binding RemoveSelectedCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon Width="16"
+                                      Height="16"
+                                      VerticalAlignment="Center"
+                                      Foreground="{Binding $parent[Button].Foreground}"
+                                      Data="{StaticResource IconTrash}" />
+                            <TextBlock Text="{Binding RemoveButtonText}"
+                                       FontSize="13"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+    </Grid>
+
+</UserControl>

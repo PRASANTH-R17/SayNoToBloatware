@@ -24,6 +24,7 @@ internal static class Program
         var bloatwareSyncService = provider.GetRequiredService<IBloatwareSyncService>();
         var bloatwareCacheService = provider.GetRequiredService<IBloatwareCacheService>();
         var iconCacheService = provider.GetRequiredService<IIconCacheService>();
+        var deviceMetadataService = provider.GetRequiredService<IDeviceMetadataService>();
         var deviceWorkflow = provider.GetRequiredService<DeviceWorkflow>();
 
         using var cts = new CancellationTokenSource();
@@ -59,6 +60,17 @@ internal static class Program
             ConsolePrompt.WriteLine("Loading icon cache...");
             await iconCacheService.LoadAsync(cts.Token);
             ConsolePrompt.WriteLine($"Loading icon cache... {iconCacheService.Count} icons");
+
+            ConsolePrompt.WriteLine("Loading device metadata...");
+            try
+            {
+                await deviceMetadataService.LoadAsync(cts.Token);
+                ConsolePrompt.WriteLine($"Loading device metadata... {deviceMetadataService.Entries.Count} devices ({deviceMetadataService.Source})");
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                ConsolePrompt.WriteLine($"Device metadata unavailable. Reason: {ex.Message}");
+            }
 
             ConsolePrompt.WriteLine("Detecting devices...");
             await deviceWorkflow.RunAsync(cts.Token);

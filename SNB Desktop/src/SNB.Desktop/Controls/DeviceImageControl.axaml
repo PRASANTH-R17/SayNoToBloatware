@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             x:Class="SNB.Desktop.Controls.DeviceImageControl"
+             x:Name="Root">
+
+    <Panel Width="176" Height="116">
+        <Border CornerRadius="12"
+                Background="Transparent"
+                BorderThickness="0">
+            <PathIcon Width="48"
+                      Height="48"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Foreground="{StaticResource OutlineBrush}"
+                      Data="{StaticResource IconSmartphone}" />
+        </Border>
+
+        <Image Margin="0"
+               Stretch="Uniform"
+               Source="{Binding #Root.ImagePath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}"
+               IsVisible="{Binding #Root.ImagePath, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+        <Image Margin="0"
+               Stretch="Uniform"
+               Source="avares://SNB.Desktop/Assets/Images/default-phone.png"
+               IsVisible="{Binding #Root.ImagePath, Converter={x:Static ObjectConverters.IsNull}}" />
+    </Panel>
+
+</UserControl>

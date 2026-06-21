@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             x:Class="SNB.Desktop.Controls.ActionMenuButton"
+             x:DataType="vm:ApplicationsViewModel">
+
+    <Button Classes="Link"
+            Padding="8,4" VerticalAlignment="Center">
+        <PathIcon Width="16" Height="16"
+                  Foreground="{StaticResource TextMutedBrush}"
+                  Data="{StaticResource IconMore}" />
+        <Button.Flyout>
+            <MenuFlyout Placement="BottomEdgeAlignedRight">
+                <MenuItem Header="View Details" 
+                          Command="{Binding OpenDetailsCommand}"
+                          CommandParameter="{Binding}" />
+                <Separator />
+                <MenuItem Header="Uninstall" IsEnabled="False" />
+                <MenuItem Header="Disable" IsEnabled="False" />
+            </MenuFlyout>
+        </Button.Flyout>
+    </Button>
+
+</UserControl>

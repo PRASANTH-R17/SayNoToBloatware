@@ -1,0 +1,230 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel"
+             VerticalAlignment="Stretch">
+
+    <ScrollViewer Background="{StaticResource SurfaceTintBrush}"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20,10,20,24"
+                    Spacing="16"
+                    MaxWidth="760"
+                    HorizontalAlignment="Stretch">
+
+            <TextBlock Text="Settings"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource OnSurfaceBrush}" />
+
+            <!-- Database -->
+            <Border Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource SubtleOutlineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    ClipToBounds="True">
+                <StackPanel Spacing="0">
+                    <TextBlock Text="Database"
+                               Margin="18,16,18,12"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}" />
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <PathIcon Grid.Column="0"
+                                      Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconDatabase}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Database Version"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding DatabaseVersion}"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <PathIcon Grid.Column="0"
+                                      Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconClock}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Last Sync"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding LastSync}"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Right" />
+                        </Grid>
+                    </Border>
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <PathIcon Grid.Column="0"
+                                      Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Top"
+                                      Margin="0,2,0,0"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconAutorenew}" />
+                            <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                                <TextBlock Text="Auto Update Database"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource OnSurfaceBrush}" />
+                                <TextBlock Text="Automatically update bloatware database in the background."
+                                           FontSize="12"
+                                           Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                           TextWrapping="Wrap"
+                                           LineHeight="17" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="2"
+                                          VerticalAlignment="Center"
+                                          IsChecked="{Binding AutoUpdateDatabase}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Cache -->
+            <Border Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource SubtleOutlineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    ClipToBounds="True">
+                <StackPanel Spacing="0">
+                    <TextBlock Text="Cache"
+                               Margin="18,16,18,12"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}" />
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <PathIcon Grid.Column="0"
+                                      Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconFolder}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Icon Cache Location"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding IconCacheLocation}"
+                                       FontSize="13"
+                                       Classes="Code"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Right"
+                                       MaxWidth="260"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </Border>
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <PathIcon Grid.Column="0"
+                                      Width="18"
+                                      Height="18"
+                                      VerticalAlignment="Top"
+                                      Margin="0,2,0,0"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconTrash}" />
+                            <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                                <TextBlock Text="Clear Icon Cache"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource OnSurfaceBrush}" />
+                                <TextBlock Text="Remove all cached icons."
+                                           FontSize="12"
+                                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                            </StackPanel>
+                            <Button Grid.Column="2"
+                                    Classes="OutlinePrimary"
+                                    MinHeight="36"
+                                    Padding="14,8"
+                                    FontSize="13"
+                                    VerticalAlignment="Center"
+                                    Content="Clear Cache"
+                                    Command="{Binding ClearCacheCommand}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Other -->
+            <Border Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource SubtleOutlineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    ClipToBounds="True">
+                <StackPanel Spacing="0">
+                    <TextBlock Text="Other"
+                               Margin="18,16,18,12"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}" />
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <TextBlock Text="Theme"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1"
+                                      MinWidth="148"
+                                      ItemsSource="{Binding ThemeOptions}"
+                                      SelectedItem="{Binding Theme}" />
+                        </Grid>
+                    </Border>
+
+                    <Border BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="0,1,0,0"
+                            Padding="18,14">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <TextBlock Text="Language"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1"
+                                      MinWidth="148"
+                                      ItemsSource="{Binding LanguageOptions}"
+                                      SelectedItem="{Binding Language}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

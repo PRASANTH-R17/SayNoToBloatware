@@ -51,6 +51,10 @@
     <Content Include="..\..\..\Assets\Database\snb.db" Link="Default\snb.db" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\..\..\Assets\Images\*.png" Link="Assets\Images\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <Target Name="ChmodAdb" AfterTargets="Publish" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
     <Exec Command="chmod +x &quot;$(PublishDir)adb&quot;" />
   </Target>

@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              xmlns:models="clr-namespace:SNB.Desktop.Models"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              x:Class="SNB.Desktop.Dialogs.RemovalConfirmationDialog"
@@ -61,7 +62,7 @@
                                    TextAlignment="Center"
                                    TextWrapping="Wrap" />
 
-                        <TextBlock Text="The selected applications will be removed for the current user. This action cannot be undone."
+                        <TextBlock Text="{l:Loc RemovalConfirm.Warning}"
                                    FontSize="14"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
                                    TextAlignment="Center"
@@ -143,7 +144,7 @@
                                             <DataTemplate x:DataType="models:ApplicationItemModel">
                                                 <Border BorderBrush="{StaticResource OutlineVariantBrush}"
                                                         BorderThickness="0,0,0,1"
-                                                        Padding="14,10">
+                                                        Padding="14,10,20,10">
                                                     <Grid ColumnDefinitions="Auto,*"
                                                           ColumnSpacing="12">
                                                         <Border Grid.Column="0"
@@ -156,10 +157,12 @@
                                                                 <Image Width="36"
                                                                        Height="36"
                                                                        Stretch="UniformToFill"
+                                                                       IsVisible="{Binding !HasIcon}"
                                                                        Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                                                 <Image Width="36"
                                                                        Height="36"
                                                                        Stretch="UniformToFill"
+                                                                       IsVisible="{Binding HasIcon}"
                                                                        Source="{Binding IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                                             </Panel>
                                                         </Border>

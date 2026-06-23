@@ -13,6 +13,9 @@ public partial class ApplicationItemModel : ObservableObject
     /// <summary>Bindable icon path (avares:// or file path); empty -> placeholder fallback.</summary>
     public string IconPath { get; init; } = string.Empty;
 
+    /// <summary>True when a real icon is available; drives whether the fallback logo is shown.</summary>
+    public bool HasIcon => !string.IsNullOrWhiteSpace(IconPath);
+
     public string AppName { get; init; } = string.Empty;
 
     public string PackageName { get; init; } = string.Empty;

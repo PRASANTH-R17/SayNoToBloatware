@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
@@ -13,21 +14,25 @@ using SNB.Desktop.Services;
 namespace SNB.Desktop.ViewModels;
 
 /// <summary>
-/// Removal progress dialog. Simulates per-app removal with live row status updates,
+/// Removal progress dialog. Performs real per-app removal through the backend
+/// (one package at a time via the orchestrator) with live row status updates,
 /// then chains to <see cref="RemovalCompleteViewModel"/> when finished.
 /// </summary>
 public partial class RemovalProgressViewModel : ObservableObject
 {
-    private static readonly TimeSpan StepDelay = TimeSpan.FromMilliseconds(1400);
-
     private readonly INavigationService _navigation;
     private readonly IServiceProvider _services;
-    private CancellationTokenSource? _simulationCts;
+    private readonly IDeviceCatalogService _catalog;
+    private CancellationTokenSource? _cts;
 
-    public RemovalProgressViewModel(INavigationService navigation, IServiceProvider services)
+    public RemovalProgressViewModel(
+        INavigationService navigation,
+        IServiceProvider services,
+        IDeviceCatalogService catalog)
     {
         _navigation = navigation;
         _services = services;
+        _catalog = catalog;
     }
 
     public ObservableCollection<RemovalResultModel> Results { get; } = new();
@@ -49,12 +54,12 @@ public partial class RemovalProgressViewModel : ObservableObject
 
     public string ProgressPercentLabel => $"{ProgressPercent:0}%";
 
-    /// <summary>Seeds the per-app result rows (all Pending) and starts simulated removal.</summary>
+    /// <summary>Seeds the per-app result rows (all Pending) and starts the real removal.</summary>
     public void Initialize(IEnumerable<ApplicationItemModel> apps)
     {
-        _simulationCts?.Cancel();
-        _simulationCts?.Dispose();
-        _simulationCts = new CancellationTokenSource();
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
 
         Results.Clear();
         foreach (var app in apps)
@@ -70,7 +75,7 @@ public partial class RemovalProgressViewModel : ObservableObject
 
         if (TotalCount > 0)
         {
-            _ = RunSimulationAsync(_simulationCts.Token);
+            _ = RunRemovalAsync(_cts.Token);
         }
     }
 
@@ -81,12 +86,18 @@ public partial class RemovalProgressViewModel : ObservableObject
     [RelayCommand]
     private void Cancel()
     {
-        _simulationCts?.Cancel();
+        _cts?.Cancel();
         IsRunning = false;
         _navigation.CloseDialog();
+
+        // If any apps were already removed/disabled before cancelling, refresh the list so it reflects them.
+        if (Results.Any(r => r.Status is RemovalStatus.Removed or RemovalStatus.Disabled))
+        {
+            _navigation.NavigateTo<ApplicationsViewModel>();
+        }
     }
 
-    private async Task RunSimulationAsync(CancellationToken token)
+    private async Task RunRemovalAsync(CancellationToken token)
     {
         try
         {
@@ -96,18 +107,23 @@ public partial class RemovalProgressViewModel : ObservableObject
 
                 await Dispatcher.UIThread.InvokeAsync(() => result.Status = RemovalStatus.Removing);
 
-                await Task.Delay(StepDelay, token).ConfigureAwait(false);
+                var (status, error) = await _catalog
+                    .RemoveAppAsync(result.App.PackageName, token)
+                    .ConfigureAwait(false);
 
                 token.ThrowIfCancellationRequested();
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    result.Status = RemovalStatus.Removed;
+                    result.Status = status;
+                    if (status == RemovalStatus.Failed)
+                    {
+                        result.Message = error ?? "Removal failed.";
+                    }
+
                     CompletedCount++;
                 });
             }
-
-            await Task.Delay(500, token).ConfigureAwait(false);
 
             if (!token.IsCancellationRequested)
             {

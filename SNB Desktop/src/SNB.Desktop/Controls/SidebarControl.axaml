@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:SNB.Desktop.Controls"
              xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              x:Class="SNB.Desktop.Controls.SidebarControl"
              x:DataType="vm:MainWindowViewModel">
@@ -12,18 +13,10 @@
         <Grid RowDefinitions="Auto,*,Auto" Margin="14,16,12,12">
             <StackPanel Grid.Row="0" Spacing="18">
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <Border Width="38"
-                            Height="38"
-                            CornerRadius="11"
-                            Background="{StaticResource PrimaryBrush}"
-                            VerticalAlignment="Top">
-                        <PathIcon Width="20"
-                                  Height="20"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  Foreground="{StaticResource OnPrimaryBrush}"
-                                  Data="{StaticResource IconShield}" />
-                    </Border>
+                    <Image Width="40"
+                           Height="40"
+                           VerticalAlignment="Top"
+                           Source="/Assets/logo.png" />
                     <StackPanel Spacing="3" VerticalAlignment="Center">
                         <TextBlock FontFamily="{StaticResource HeaderFontFamily}"
                                    FontSize="14"
@@ -35,7 +28,7 @@
                                    TextWrapping="Wrap"
                                    MaxWidth="138"
                                    LineHeight="15"
-                                   Text="Clean your Android device. Remove bloatware. Take control." />
+                                   Text="{l:Loc Branding.Tagline}" />
                     </StackPanel>
                 </StackPanel>
 
@@ -49,7 +42,7 @@
                                       VerticalAlignment="Center"
                                       Foreground="{Binding $parent[Button].Foreground}"
                                       Data="{StaticResource IconSmartphone}" />
-                            <TextBlock Text="Select Device" VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Loc Sidebar.SelectDevice}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
@@ -62,7 +55,7 @@
                                       VerticalAlignment="Center"
                                       Foreground="{Binding $parent[Button].Foreground}"
                                       Data="{StaticResource IconApps}" />
-                            <TextBlock Text="Applications" VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Loc Sidebar.Applications}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
@@ -74,7 +67,7 @@
                                       VerticalAlignment="Center"
                                       Foreground="{Binding $parent[Button].Foreground}"
                                       Data="{StaticResource IconSettings}" />
-                            <TextBlock Text="Settings" VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Loc Sidebar.Settings}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
@@ -86,7 +79,7 @@
                                       VerticalAlignment="Center"
                                       Foreground="{Binding $parent[Button].Foreground}"
                                       Data="{StaticResource IconInfo}" />
-                            <TextBlock Text="About" VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Loc Sidebar.About}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -112,7 +105,7 @@
                         </Border>
 
                         <StackPanel Spacing="4">
-                            <TextBlock Text="USB Debugging"
+                            <TextBlock Text="{l:Loc Sidebar.UsbDebugging}"
                                        FontSize="13"
                                        FontWeight="SemiBold"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
@@ -120,14 +113,14 @@
                                        Foreground="{StaticResource OnSurfaceVariantBrush}"
                                        TextWrapping="Wrap"
                                        LineHeight="17"
-                                       Text="Turn on USB debugging in Developer options so your phone can be detected." />
+                                       Text="{l:Loc Sidebar.UsbHint}" />
                         </StackPanel>
 
                         <Button Classes="Link"
                                 FontSize="12"
                                 Padding="0"
                                 HorizontalAlignment="Left"
-                                Content="Learn how →" />
+                                Content="{l:Loc Sidebar.LearnHow}" />
                     </StackPanel>
                 </Border>
 
@@ -138,7 +131,7 @@
                         <StackPanel Spacing="10">
                             <TextBlock Classes="Caption"
                                        FontSize="11"
-                                       Text="Connected device" />
+                                       Text="{l:Loc Sidebar.ConnectedDevice}" />
 
                             <Image Height="78"
                                    Stretch="Uniform"
@@ -168,7 +161,7 @@
                                              Height="7"
                                              Fill="{StaticResource SuccessBrush}"
                                              VerticalAlignment="Center" />
-                                    <TextBlock Text="Connected"
+                                    <TextBlock Text="{l:Loc Sidebar.Connected}"
                                                FontSize="11"
                                                FontWeight="Medium"
                                                Foreground="{StaticResource SuccessBrush}"
@@ -179,7 +172,7 @@
                     </Border>
 
                     <Button Classes="Secondary"
-                            Content="Change Device"
+                            Content="{l:Loc Sidebar.ChangeDevice}"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Center"
                             MinHeight="36"
@@ -196,7 +189,7 @@
                        Width="12"
                        Height="12"
                        VerticalAlignment="Center"
-                       ToolTip.Tip="Ready">
+                       ToolTip.Tip="{l:Loc Sidebar.Ready}">
                     <Ellipse Width="12"
                              Height="12"
                              Fill="#2616A34A" />

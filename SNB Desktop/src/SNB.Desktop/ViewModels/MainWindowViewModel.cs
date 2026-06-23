@@ -17,10 +17,12 @@ public partial class MainWindowViewModel : ObservableObject
     public const string AppVersion = "SNB Desktop v1.0.0";
 
     private readonly INavigationService _navigation;
+    private readonly IDeviceCatalogService _catalog;
 
-    public MainWindowViewModel(INavigationService navigation)
+    public MainWindowViewModel(INavigationService navigation, IDeviceCatalogService catalog)
     {
         _navigation = navigation;
+        _catalog = catalog;
 
         _navigation.CurrentPageChanged += () => CurrentPage = _navigation.CurrentPage;
         _navigation.CurrentDialogChanged += () =>
@@ -97,6 +99,9 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private void ChangeDevice()
     {
+        // Best effort: stop the on-device bridge for the previous session.
+        _ = _catalog.StopAsync();
+
         SelectedDevice = null;
         IsDeviceConnected = false;
         ActiveNavItem = "Select Device";

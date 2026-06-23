@@ -216,6 +216,7 @@
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <TextBlock Text="snb.prasanth.online"
                                            FontSize="13"
+                                           VerticalAlignment="Center"
                                            Foreground="{StaticResource PrimaryBrush}" />
                                 <PathIcon Width="14"
                                           Height="14"
@@ -282,6 +283,7 @@
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <TextBlock Text="View on GitHub"
                                            FontSize="13"
+                                           VerticalAlignment="Center"
                                            Foreground="{StaticResource PrimaryBrush}" />
                                 <PathIcon Width="14"
                                           Height="14"
@@ -348,6 +350,7 @@
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <TextBlock Text="GitHub Issues"
                                            FontSize="13"
+                                           VerticalAlignment="Center"
                                            Foreground="{StaticResource PrimaryBrush}" />
                                 <PathIcon Width="14"
                                           Height="14"
@@ -403,7 +406,8 @@
                                    TextWrapping="Wrap"
                                    Margin="0,4,0,0" />
                         <Button Grid.Row="3"
-                                Grid.Column="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
                                 Classes="Link"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
@@ -414,6 +418,7 @@
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <TextBlock Text="Read Documentation"
                                            FontSize="13"
+                                           VerticalAlignment="Center"
                                            Foreground="{StaticResource PrimaryBrush}" />
                                 <PathIcon Width="14"
                                           Height="14"

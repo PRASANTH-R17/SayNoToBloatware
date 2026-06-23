@@ -5,6 +5,7 @@
         x:Class="SNB.Desktop.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="Say No to Bloatware"
+        Icon="/Assets/app.ico"
         Width="1024"
         Height="680"
         MinWidth="860"
@@ -16,7 +17,8 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="48">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,*"
+          Margin="{Binding $parent[Window].OffScreenMargin}">
 
         <Border Grid.Row="0"
                 Classes="TitleBar">
@@ -30,11 +32,10 @@
                                 Margin="16,0,0,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left">
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  VerticalAlignment="Center"
-                                  Foreground="{StaticResource PrimaryBrush}"
-                                  Data="{StaticResource IconShield}" />
+                        <Image Width="18"
+                               Height="18"
+                               VerticalAlignment="Center"
+                               Source="/Assets/logo.png" />
                         <TextBlock Text="Say No to Bloatware"
                                    FontFamily="{StaticResource HeaderFontFamily}"
                                    FontSize="13"

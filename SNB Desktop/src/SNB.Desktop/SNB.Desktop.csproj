@@ -7,11 +7,30 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+
+    <Product>Say No to Bloatware</Product>
+    <Company>Prasanth R</Company>
+    <Authors>Prasanth R</Authors>
+    <Copyright>Copyright (c) 2025 Prasanth R</Copyright>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <InformationalVersion>1.0.0</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <_AdbAssetRuntimeIdentifier
+      Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and '$(RuntimeIdentifier)' != '' and $([System.String]::Copy('$(RuntimeIdentifier)').StartsWith('win', System.StringComparison.OrdinalIgnoreCase))">win</_AdbAssetRuntimeIdentifier>
+    <_AdbAssetRuntimeIdentifier
+      Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and '$(RuntimeIdentifier)' != '' and $([System.String]::Copy('$(RuntimeIdentifier)').StartsWith('linux', System.StringComparison.OrdinalIgnoreCase))">linux</_AdbAssetRuntimeIdentifier>
+    <_AdbAssetRuntimeIdentifier Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">win</_AdbAssetRuntimeIdentifier>
+    <_AdbAssetRuntimeIdentifier Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('Linux'))">linux</_AdbAssetRuntimeIdentifier>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.*" />
@@ -21,6 +40,8 @@
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.*" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
@@ -30,5 +51,26 @@
   <ItemGroup>
     <ProjectReference Include="..\SNB.Backend\SNB.Backend.csproj" />
   </ItemGroup>
+
+  <!-- Runtime assets consumed by SNB.Backend (resolved relative to AppContext.BaseDirectory). -->
+  <ItemGroup Condition="$([System.String]::Copy('$(_AdbAssetRuntimeIdentifier)').StartsWith('win'))">
+    <Content Include="..\..\..\Assets\ADB\Windows\adb.exe" Link="adb.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinApi.dll" Link="AdbWinApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinUsbApi.dll" Link="AdbWinUsbApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([System.String]::Copy('$(_AdbAssetRuntimeIdentifier)').StartsWith('linux'))">
+    <Content Include="..\..\..\Assets\ADB\Linux\adb" Link="adb" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\Assets\Bridge\snb_bridge.apk" Link="Bridge\snb_bridge.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\Database\snb.db" Link="Default\snb.db" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\Images\*.png" Link="Assets\Images\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="ChmodAdb" AfterTargets="Publish" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <Exec Command="chmod +x &quot;$(PublishDir)adb&quot;" />
+  </Target>
 
 </Project>

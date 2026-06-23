@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:SNB.Desktop.Converters"
              xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              xmlns:models="clr-namespace:SNB.Desktop.Models"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              x:Class="SNB.Desktop.Dialogs.RemovalProgressDialog"
@@ -29,7 +30,7 @@
                            Foreground="{StaticResource OnSurfaceBrush}"
                            TextAlignment="Center" />
 
-                <TextBlock Text="Please do not disconnect your device."
+                <TextBlock Text="{l:Loc RemovalProgress.DoNotDisconnect}"
                            FontSize="14"
                            Foreground="{StaticResource OnSurfaceVariantBrush}"
                            TextAlignment="Center" />
@@ -64,7 +65,7 @@
                         <DataTemplate x:DataType="models:RemovalResultModel">
                             <Border BorderBrush="{StaticResource OutlineVariantBrush}"
                                     BorderThickness="0,0,0,1"
-                                    Padding="0,12">
+                                    Padding="0,12,18,12">
                                 <Grid ColumnDefinitions="Auto,*,Auto"
                                       ColumnSpacing="12">
                                     <Border Grid.Column="0"
@@ -77,10 +78,12 @@
                                             <Image Width="36"
                                                    Height="36"
                                                    Stretch="UniformToFill"
+                                                   IsVisible="{Binding !App.HasIcon}"
                                                    Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                             <Image Width="36"
                                                    Height="36"
                                                    Stretch="UniformToFill"
+                                                   IsVisible="{Binding App.HasIcon}"
                                                    Source="{Binding App.IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                         </Panel>
                                     </Border>
@@ -117,6 +120,20 @@
                                                        FontSize="13"
                                                        FontWeight="Medium"
                                                        Foreground="{StaticResource SuccessBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Disabled}}">
+                                            <PathIcon Width="16"
+                                                      Height="16"
+                                                      Foreground="{StaticResource WarningBrush}"
+                                                      Data="{StaticResource IconBlock}" />
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       Foreground="{StaticResource WarningBrush}"
                                                        VerticalAlignment="Center" />
                                         </StackPanel>
 

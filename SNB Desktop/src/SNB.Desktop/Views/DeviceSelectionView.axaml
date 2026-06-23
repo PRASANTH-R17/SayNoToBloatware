@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              x:Class="SNB.Desktop.Views.DeviceSelectionView"
              x:DataType="vm:DeviceSelectionViewModel">
@@ -18,10 +19,10 @@
                         <TextBlock FontSize="28"
                                    FontWeight="SemiBold"
                                    Foreground="{StaticResource OnSurfaceBrush}"
-                                   Text="Select a Device" />
+                                   Text="{l:Loc Device.Title}" />
                         <TextBlock FontSize="14"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
-                                   Text="Choose the Android device you want to manage." />
+                                   Text="{l:Loc Device.Subtitle}" />
                     </StackPanel>
 
                     <Button Grid.Column="1"
@@ -35,12 +36,30 @@
                                       Height="14"
                                       Foreground="{StaticResource PrimaryBrush}"
                                       Data="{StaticResource IconSyncAlt}" />
-                            <TextBlock Text="Refresh"
+                            <TextBlock Text="{l:Loc Device.Refresh}"
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource PrimaryBrush}" />
                         </StackPanel>
                     </Button>
                 </Grid>
+
+                <Border IsVisible="{Binding HasError}"
+                        Background="#FFF1F2"
+                        BorderBrush="#FB7185"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="16,12">
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               TextWrapping="Wrap"
+                               FontSize="13"
+                               Foreground="#B91C1C" />
+                </Border>
+
+                <TextBlock IsVisible="{Binding HasNoDevices}"
+                           Text="{l:Loc Device.NoDevices}"
+                           TextWrapping="Wrap"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
 
                 <ItemsControl ItemsSource="{Binding Devices}"
                               HorizontalAlignment="Stretch">
@@ -85,13 +104,31 @@
                     <TextBlock FontSize="16"
                                FontWeight="SemiBold"
                                Foreground="{StaticResource OnSurfaceBrush}"
-                               Text="Can't see your device?" />
+                               Text="{l:Loc Device.CantSee}" />
                     <TextBlock FontSize="13"
                                Foreground="{StaticResource OnSurfaceVariantBrush}"
                                TextWrapping="Wrap"
-                               Text="Ensure the device is connected via USB, USB debugging is enabled, and you have allowed the computer authorization." />
+                               Text="{l:Loc Device.EnsureHint}" />
                 </StackPanel>
             </Grid>
+        </Border>
+
+        <!-- Busy overlay: bootstrap, detection, and device preparation -->
+        <Border Grid.Row="0"
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsBusy}"
+                Background="#B3FFFFFF">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="14">
+                <controls:LoadingSpinner Width="44"
+                                         Height="44"
+                                         HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding StatusMessage}"
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+            </StackPanel>
         </Border>
 
     </Grid>

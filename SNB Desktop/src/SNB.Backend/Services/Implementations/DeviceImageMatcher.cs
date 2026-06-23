@@ -36,6 +36,14 @@ public sealed class DeviceImageMatcher : IDeviceImageMatcher
         var brandMarketName = Normalize(brandMarketNameOriginal);
         var brandModel = Normalize(brandModelOriginal);
         var model = Normalize(modelOriginal);
+        var normalizedBrand = Normalize(device.Brand);
+
+        // When the device exposes no real marketing name, MarketName falls back to the model code.
+        // A bare model code (e.g. "v2561") cannot meaningfully match a marketing-name dataset, so the
+        // substring/fuzzy strategies would only ever produce a misleading guess. Detect that here and
+        // skip those strategies, letting the caller fall back to the brand/generic default image.
+        var hasRealMarketName = Normalize(device.MarketName).Length > 0
+            && Normalize(device.MarketName) != model;
 
         // Strategy 1: Brand + MarketName exact vs name.
         if (!string.IsNullOrEmpty(brandMarketName))
@@ -78,7 +86,7 @@ public sealed class DeviceImageMatcher : IDeviceImageMatcher
         }
 
         // Strategy 3: Model contained in name or slug.
-        if (!string.IsNullOrEmpty(model))
+        if (hasRealMarketName && !string.IsNullOrEmpty(model))
         {
             foreach (var entry in entries)
             {
@@ -100,16 +108,22 @@ public sealed class DeviceImageMatcher : IDeviceImageMatcher
             }
         }
 
-        // Strategy 4: Fuzzy ratio vs name >= threshold (best match).
+        // Strategy 4: Fuzzy ratio vs name >= threshold (best match), scoped to the same brand.
         var target = string.IsNullOrEmpty(brandMarketName) ? brandModel : brandMarketName;
         var targetOriginal = string.IsNullOrEmpty(brandMarketName) ? brandModelOriginal : brandMarketNameOriginal;
-        if (!string.IsNullOrEmpty(target))
+        if (hasRealMarketName && !string.IsNullOrEmpty(target))
         {
             DeviceMetadataEntry? best = null;
             var bestRatio = 0.0;
 
             foreach (var entry in entries)
             {
+                // Never fuzzy-match across brands - it is the main source of wrong images.
+                if (normalizedBrand.Length > 0 && Normalize(entry.Brand) != normalizedBrand)
+                {
+                    continue;
+                }
+
                 var ratio = FuzzyRatio(target, Normalize(entry.Name));
                 if (ratio > bestRatio)
                 {

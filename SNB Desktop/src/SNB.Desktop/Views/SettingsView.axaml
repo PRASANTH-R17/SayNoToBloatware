@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              x:Class="SNB.Desktop.Views.SettingsView"
              x:DataType="vm:SettingsViewModel"
              VerticalAlignment="Stretch">
@@ -93,7 +94,7 @@
                                            FontSize="14"
                                            FontWeight="SemiBold"
                                            Foreground="{StaticResource OnSurfaceBrush}" />
-                                <TextBlock Text="Automatically update bloatware database in the background."
+                                <TextBlock Text="{l:Loc Settings.AutoUpdateHint}"
                                            FontSize="12"
                                            Foreground="{StaticResource OnSurfaceVariantBrush}"
                                            TextWrapping="Wrap"
@@ -162,7 +163,7 @@
                                            FontSize="14"
                                            FontWeight="SemiBold"
                                            Foreground="{StaticResource OnSurfaceBrush}" />
-                                <TextBlock Text="Remove all cached icons."
+                                <TextBlock Text="{l:Loc Settings.ClearIconCacheHint}"
                                            FontSize="12"
                                            Foreground="{StaticResource OnSurfaceVariantBrush}" />
                             </StackPanel>
@@ -196,7 +197,7 @@
                             BorderThickness="0,1,0,0"
                             Padding="18,14">
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
-                            <TextBlock Text="Theme"
+                            <TextBlock Text="{l:Loc Settings.Theme}"
                                        FontSize="14"
                                        Foreground="{StaticResource OnSurfaceBrush}"
                                        VerticalAlignment="Center" />
@@ -211,7 +212,7 @@
                             BorderThickness="0,1,0,0"
                             Padding="18,14">
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
-                            <TextBlock Text="Language"
+                            <TextBlock Text="{l:Loc Settings.Language}"
                                        FontSize="14"
                                        Foreground="{StaticResource OnSurfaceBrush}"
                                        VerticalAlignment="Center" />

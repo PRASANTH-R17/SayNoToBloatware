@@ -8,5 +8,6 @@ public enum RemovalStatus
     Pending,
     Removing,
     Removed,
+    Disabled,
     Failed,
 }

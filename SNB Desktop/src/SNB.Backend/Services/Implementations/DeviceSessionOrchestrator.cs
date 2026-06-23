@@ -109,6 +109,9 @@ public sealed class DeviceSessionOrchestrator : IDeviceSessionOrchestrator
         progress?.Report("Configuring port forwarding...");
         progress?.Report("Waiting for Bridge health check...");
 
+        progress?.Report("Reading app metadata...");
+        await EnrichMetadataAsync(deviceApps, cancellationToken);
+
         var missing = _iconCacheService.GetMissingPackages(packages);
         progress?.Report($"Retrieving missing icons... {missing.Count} icons");
 
@@ -125,17 +128,69 @@ public sealed class DeviceSessionOrchestrator : IDeviceSessionOrchestrator
         return deviceApps;
     }
 
-    public Task<IReadOnlyList<RemovalResult>> RemoveAppsAsync(
+    public async Task<IReadOnlyList<RemovalResult>> RemoveAppsAsync(
         string serial,
         IReadOnlyList<string> packageNames,
         CancellationToken cancellationToken = default)
     {
-        return _appRemovalService.RemoveAppsAsync(serial, packageNames, cancellationToken);
+        var results = await _appRemovalService.RemoveAppsAsync(serial, packageNames, cancellationToken);
+
+        // Keep the in-memory catalog in sync with the device so the UI no longer shows packages
+        // that were just uninstalled (without needing a full re-scan).
+        var removed = results
+            .Where(r => r.Success)
+            .Select(r => r.PackageName)
+            .ToHashSet(StringComparer.Ordinal);
+
+        if (removed.Count > 0 && CurrentDeviceApps is { } current)
+        {
+            CurrentDeviceApps = new DeviceApps
+            {
+                AllApps = current.AllApps.Where(a => !removed.Contains(a.PackageName)).ToList(),
+                RecommendedRemovalApps = current.RecommendedRemovalApps.Where(a => !removed.Contains(a.PackageName)).ToList(),
+                AppsWithAlternatives = current.AppsWithAlternatives.Where(a => !removed.Contains(a.PackageName)).ToList(),
+            };
+        }
+
+        return results;
     }
 
     public Task StopBridgeAsync(string serial, CancellationToken cancellationToken = default)
     {
         return _bridgeDeploymentService.StopAsync(serial, cancellationToken);
+    }
+
+    private async Task EnrichMetadataAsync(DeviceApps deviceApps, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<Models.Bridge.BridgeAppDto> bridgeApps;
+        try
+        {
+            bridgeApps = await _bridgeHttpClient.GetAllAppsAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Unable to read app metadata from bridge; continuing with package names only.");
+            return;
+        }
+
+        var lookup = deviceApps.AllApps.ToDictionary(a => a.PackageName, StringComparer.Ordinal);
+        foreach (var bridgeApp in bridgeApps)
+        {
+            if (!lookup.TryGetValue(bridgeApp.PackageName, out var app))
+            {
+                continue;
+            }
+
+            if (!string.IsNullOrWhiteSpace(bridgeApp.Label))
+            {
+                app.AppName = bridgeApp.Label;
+            }
+
+            app.Version = bridgeApp.VersionName;
+            app.SizeBytes = bridgeApp.SizeBytes;
+            app.IsSystem = bridgeApp.IsSystem;
+            app.Permissions = bridgeApp.Permissions;
+        }
     }
 
     private async Task FetchMissingIconsAsync(

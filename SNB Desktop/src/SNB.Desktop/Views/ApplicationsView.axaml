@@ -4,6 +4,7 @@
              xmlns:models="clr-namespace:SNB.Desktop.Models"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              x:Class="SNB.Desktop.Views.ApplicationsView"
              x:DataType="vm:ApplicationsViewModel"
              VerticalAlignment="Stretch">
@@ -23,7 +24,7 @@
                                FontSize="22"
                                FontWeight="Bold"
                                Foreground="{StaticResource OnSurfaceBrush}" />
-                    <TextBlock Text="Review installed apps, filter bloatware, and remove selected packages."
+                    <TextBlock Text="{l:Loc Apps.Subtitle}"
                                FontSize="13"
                                Foreground="{StaticResource OnSurfaceVariantBrush}" />
                 </StackPanel>
@@ -42,7 +43,7 @@
                                       VerticalAlignment="Center"
                                       Foreground="{StaticResource PrimaryContainerBrush}"
                                       Data="{StaticResource IconDownload}" />
-                            <TextBlock Text="Export"
+                            <TextBlock Text="{l:Loc Apps.Export}"
                                        FontSize="13"
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
@@ -59,7 +60,7 @@
                                       VerticalAlignment="Center"
                                       Foreground="{StaticResource PrimaryBrush}"
                                       Data="{StaticResource IconAutorenew}" />
-                            <TextBlock Text="Scan Again"
+                            <TextBlock Text="{l:Loc Apps.ScanAgain}"
                                        FontSize="13"
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
@@ -90,7 +91,7 @@
                             <TextBlock Text="{Binding Statistics.TotalApps}"
                                        FontSize="20" FontWeight="Bold"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
-                            <TextBlock Text="Total Apps"
+                            <TextBlock Text="{l:Loc Apps.TotalApps}"
                                        FontSize="12"
                                        Foreground="{StaticResource OnSurfaceVariantBrush}" />
                         </StackPanel>
@@ -113,7 +114,7 @@
                             <TextBlock Text="{Binding Statistics.RecommendedRemoval}"
                                        FontSize="20" FontWeight="Bold"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
-                            <TextBlock Text="Recommended Removal"
+                            <TextBlock Text="{l:Loc Apps.RecommendedRemoval}"
                                        FontSize="12"
                                        Foreground="{StaticResource OnSurfaceVariantBrush}" />
                         </StackPanel>
@@ -136,7 +137,7 @@
                             <TextBlock Text="{Binding Statistics.AppsWithAlternatives}"
                                        FontSize="20" FontWeight="Bold"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
-                            <TextBlock Text="Apps with Alternatives"
+                            <TextBlock Text="{l:Loc Apps.WithAlternatives}"
                                        FontSize="12"
                                        Foreground="{StaticResource OnSurfaceVariantBrush}" />
                         </StackPanel>
@@ -152,21 +153,21 @@
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left">
                     <RadioButton Classes="Tab"
-                                 Content="All Apps"
+                                 Content="{l:Loc Apps.AllApps}"
                                  GroupName="AppTabs"
                                  IsChecked="{Binding SelectedTab, Mode=OneWay, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:TabFilter.AllApps}}"
                                  Command="{Binding ChangeTabCommand}"
                                  CommandParameter="{x:Static models:TabFilter.AllApps}" />
 
                     <RadioButton Classes="Tab"
-                                 Content="Recommended Removal"
+                                 Content="{l:Loc Apps.RecommendedRemoval}"
                                  GroupName="AppTabs"
                                  IsChecked="{Binding SelectedTab, Mode=OneWay, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:TabFilter.RecommendedRemoval}}"
                                  Command="{Binding ChangeTabCommand}"
                                  CommandParameter="{x:Static models:TabFilter.RecommendedRemoval}" />
 
                     <RadioButton Classes="Tab"
-                                 Content="Apps with Alternatives"
+                                 Content="{l:Loc Apps.WithAlternatives}"
                                  GroupName="AppTabs"
                                  Margin="0"
                                  IsChecked="{Binding SelectedTab, Mode=OneWay, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:TabFilter.AppsWithAlternatives}}"
@@ -175,11 +176,11 @@
                 </StackPanel>
             </Border>
 
-            <!-- Search + Filter + Sort -->
+            <!-- Search + Sort -->
             <Grid Grid.Row="3" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
                 <TextBox Grid.Column="0"
                          Classes="Search Toolbar"
-                         Watermark="Search apps by name or package name..."
+                         Watermark="{l:Loc Apps.SearchWatermark}"
                          Text="{Binding SearchText}">
                     <TextBox.InnerLeftContent>
                         <PathIcon Width="16"
@@ -191,28 +192,7 @@
                     </TextBox.InnerLeftContent>
                 </TextBox>
 
-                <Button Grid.Column="1"
-                        Classes="Secondary Toolbar"
-                        Padding="12,8"
-                        MinHeight="36">
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <PathIcon Width="14"
-                                  Height="14"
-                                  VerticalAlignment="Center"
-                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
-                                  Data="{StaticResource IconFilter}" />
-                        <TextBlock Text="Filter"
-                                   FontSize="13"
-                                   VerticalAlignment="Center" />
-                        <PathIcon Width="14"
-                                  Height="14"
-                                  VerticalAlignment="Center"
-                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
-                                  Data="{StaticResource IconChevronDown}" />
-                    </StackPanel>
-                </Button>
-
-                <ComboBox Grid.Column="2"
+                <ComboBox Grid.Column="1"
                           Classes="Toolbar"
                           MinWidth="168"
                           ItemsSource="{Binding SortOptions}"
@@ -224,6 +204,26 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+
+                <Button Grid.Column="2"
+                        Classes="Secondary Toolbar"
+                        Padding="10,8"
+                        MinHeight="36"
+                        ToolTip.Tip="Toggle sort direction"
+                        Command="{Binding ToggleSortDirectionCommand}">
+                    <Panel>
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconChevronUp}"
+                                  IsVisible="{Binding !IsSortDescending}" />
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconChevronDown}"
+                                  IsVisible="{Binding IsSortDescending}" />
+                    </Panel>
+                </Button>
             </Grid>
 
             <!-- App grid -->
@@ -268,8 +268,10 @@
                                             VerticalAlignment="Center">
                                         <Panel>
                                             <Image Stretch="UniformToFill"
+                                                   IsVisible="{Binding !HasIcon}"
                                                    Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                             <Image Stretch="UniformToFill"
+                                                   IsVisible="{Binding HasIcon}"
                                                    Source="{Binding IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                         </Panel>
                                     </Border>
@@ -334,6 +336,15 @@
                             Height="16"
                             VerticalAlignment="Center"
                             Background="{StaticResource SubtleDividerBrush}" />
+                    <CheckBox Content="{l:Loc Apps.SelectAll}"
+                              FontSize="13"
+                              VerticalAlignment="Center"
+                              Foreground="{StaticResource OnSurfaceBrush}"
+                              IsChecked="{Binding IsAllSelected, Mode=TwoWay}" />
+                    <Border Width="1"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource SubtleDividerBrush}" />
                     <TextBlock VerticalAlignment="Center"
                                FontSize="13"
                                Foreground="{StaticResource OnSurfaceVariantBrush}"
@@ -344,12 +355,6 @@
                             Orientation="Horizontal"
                             Spacing="16"
                             VerticalAlignment="Center">
-                    <Button Classes="Link"
-                            Padding="4,6"
-                            Foreground="{StaticResource PrimaryBrush}"
-                            Content="Deselect All"
-                            Command="{Binding DeselectAllCommand}" />
-
                     <Button Classes="RemoveSelected"
                             IsEnabled="{Binding HasSelectedItems}"
                             Command="{Binding RemoveSelectedCommand}">
@@ -366,6 +371,24 @@
                     </Button>
                 </StackPanel>
             </Grid>
+        </Border>
+
+        <!-- Busy overlay: re-scanning the device -->
+        <Border Grid.Row="0"
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsBusy}"
+                Background="#B3FFFFFF">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="14">
+                <controls:LoadingSpinner Width="44"
+                                         Height="44"
+                                         HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding StatusMessage}"
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+            </StackPanel>
         </Border>
 
     </Grid>

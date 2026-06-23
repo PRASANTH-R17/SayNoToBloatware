@@ -11,6 +11,7 @@ import android.util.Base64
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 class PackageManagerBridge(
     private val activity: MainActivity,
@@ -106,7 +107,43 @@ class PackageManagerBridge(
             "label" to getAppLabel(appInfo),
             "isSystem" to ((appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0),
             "enabled" to appInfo.enabled,
+            "versionName" to getVersionName(appInfo.packageName),
+            "sizeBytes" to getApkSizeBytes(appInfo),
+            "permissions" to getRequestedPermissions(appInfo.packageName),
         )
+    }
+
+    private fun getVersionName(packageName: String): String {
+        return try {
+            packageManager.getPackageInfo(packageName, 0).versionName ?: ""
+        } catch (_: Exception) {
+            ""
+        }
+    }
+
+    private fun getApkSizeBytes(appInfo: ApplicationInfo): Long {
+        return try {
+            val sourceDir = appInfo.sourceDir
+            if (sourceDir.isNullOrBlank()) {
+                0L
+            } else {
+                File(sourceDir).length()
+            }
+        } catch (_: Exception) {
+            0L
+        }
+    }
+
+    private fun getRequestedPermissions(packageName: String): List<String> {
+        return try {
+            val packageInfo = packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_PERMISSIONS,
+            )
+            packageInfo.requestedPermissions?.toList() ?: emptyList()
+        } catch (_: Exception) {
+            emptyList()
+        }
     }
 
     private fun encodeIconBase64(packageName: String): String? {

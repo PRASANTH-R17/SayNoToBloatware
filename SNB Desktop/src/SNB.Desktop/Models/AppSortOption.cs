@@ -8,7 +8,16 @@ public enum AppSortOption
     Name,
     PackageName,
     Size,
-    Category,
+    Type,
+}
+
+/// <summary>
+/// Sort direction applied to the currently selected <see cref="AppSortOption"/>.
+/// </summary>
+public enum SortDirection
+{
+    Ascending,
+    Descending,
 }
 
 public static class AppSortOptionExtensions
@@ -17,7 +26,7 @@ public static class AppSortOptionExtensions
     {
         AppSortOption.PackageName => "Package name",
         AppSortOption.Size => "Size",
-        AppSortOption.Category => "Category",
+        AppSortOption.Type => "App type",
         _ => "Name",
     };
 }

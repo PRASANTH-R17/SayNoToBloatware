@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Say No to Bloatware
+GenericName=Android Debloater
+Comment=Find and remove pre-installed Android bloatware over USB, no root required
+Exec=SNB.Desktop
+Icon=snb
+Terminal=false
+Categories=Utility;System;
+Keywords=android;adb;bloatware;debloat;uninstall;

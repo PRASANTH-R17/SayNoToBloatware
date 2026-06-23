@@ -59,4 +59,14 @@ public sealed class BridgeHttpClient : IBridgeHttpClient
         var apps = await JsonSerializer.DeserializeAsync<List<BridgeAppDto>>(stream, JsonOptions, cancellationToken);
         return apps ?? [];
     }
+
+    public async Task<IReadOnlyList<BridgeAppDto>> GetAllAppsAsync(CancellationToken cancellationToken = default)
+    {
+        using var response = await _httpClient.GetAsync("/apps", cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        var apps = await JsonSerializer.DeserializeAsync<List<BridgeAppDto>>(stream, JsonOptions, cancellationToken);
+        return apps ?? [];
+    }
 }

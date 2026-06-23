@@ -30,16 +30,40 @@ public sealed class BridgeDeploymentService : IBridgeDeploymentService
 
     public async Task DeployAsync(string serial, CancellationToken cancellationToken = default)
     {
+        // Port forwarding is per adb-server session (not persisted on the device), so re-establish it
+        // first. The call is cheap and idempotent, and it lets the health probe below reach the bridge.
+        await _adbExecutor.ForwardPortAsync(serial, _options.BridgePort, _options.BridgePort, cancellationToken);
+
+        // Fast path: when the bridge is already running and responsive (e.g. a re-scan in the same
+        // session), skip the slow APK push and app launch entirely.
+        if (await _bridgeHttpClient.CheckHealthAsync(cancellationToken))
+        {
+            _logger.LogInformation("Bridge already running and healthy; skipping deployment.");
+            return;
+        }
+
         var apkPath = Path.Combine(_pathProvider.BaseDirectory, "Bridge", "snb_bridge.apk");
         if (!File.Exists(apkPath))
         {
             throw new FileNotFoundException($"Bridge APK not found at {apkPath}");
         }
 
-        var installed = await _adbExecutor.IsBridgeInstalledAsync(serial, cancellationToken);
-        await _adbExecutor.InstallBridgeAsync(serial, apkPath, reinstall: installed, cancellationToken);
+        // The USB APK transfer is the slowest step, so only push when the bridge is missing or the
+        // installed version is older than the one bundled with the desktop app.
+        var installedVersion = await _adbExecutor.GetInstalledVersionCodeAsync(serial, cancellationToken);
+        if (installedVersion is null || installedVersion < _options.BridgeVersionCode)
+        {
+            await _adbExecutor.InstallBridgeAsync(serial, apkPath, reinstall: installedVersion is not null, cancellationToken);
+        }
+        else
+        {
+            _logger.LogInformation(
+                "Bridge v{InstalledVersion} already installed (bundled v{BundledVersion}); skipping APK install.",
+                installedVersion,
+                _options.BridgeVersionCode);
+        }
+
         await _adbExecutor.LaunchBridgeAsync(serial, cancellationToken);
-        await _adbExecutor.ForwardPortAsync(serial, _options.BridgePort, _options.BridgePort, cancellationToken);
 
         var deadline = DateTime.UtcNow + _options.BridgeHealthTimeout;
         var delay = TimeSpan.FromMilliseconds(500);
@@ -61,7 +85,7 @@ public sealed class BridgeDeploymentService : IBridgeDeploymentService
 
     public async Task StopAsync(string serial, CancellationToken cancellationToken = default)
     {
-        await _adbExecutor.StopBridgeAsync(serial, cancellationToken);
-        await _adbExecutor.RemovePortForwardAsync(serial, _options.BridgePort, cancellationToken);
+        await _adbExecutor.StopBridgeAsync(serial, cancellationToken).ConfigureAwait(false);
+        await _adbExecutor.RemovePortForwardAsync(serial, _options.BridgePort, cancellationToken).ConfigureAwait(false);
     }
 }

@@ -22,6 +22,7 @@ public partial class RemovalResultModel : ObservableObject
     public string StatusLabel => Status switch
     {
         RemovalStatus.Removed => "Removed",
+        RemovalStatus.Disabled => "Disabled",
         RemovalStatus.Removing => "Removing...",
         RemovalStatus.Failed => "Failed",
         _ => "Pending",

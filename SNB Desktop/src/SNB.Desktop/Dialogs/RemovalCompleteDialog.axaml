@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              xmlns:models="clr-namespace:SNB.Desktop.Models"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              x:Class="SNB.Desktop.Dialogs.RemovalCompleteDialog"
@@ -43,7 +44,7 @@
                                    Foreground="{StaticResource OnSurfaceBrush}"
                                    TextAlignment="Center" />
 
-                        <TextBlock Text="The applications have been removed successfully."
+                        <TextBlock Text="{l:Loc RemovalComplete.Subtitle}"
                                    FontSize="14"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
                                    TextAlignment="Center"
@@ -51,7 +52,7 @@
                                    MaxWidth="400" />
                     </StackPanel>
 
-                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
                         <Border Grid.Column="0"
                                 BorderBrush="{StaticResource OutlineVariantBrush}"
                                 BorderThickness="1"
@@ -86,6 +87,31 @@
                                 <StackPanel Orientation="Horizontal" Spacing="5">
                                     <PathIcon Width="14"
                                               Height="14"
+                                              Foreground="{StaticResource WarningBrush}"
+                                              Data="{StaticResource IconBlock}" />
+                                    <TextBlock Text="Disabled"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource WarningBrush}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding DisabledCount}"
+                                           FontFamily="{StaticResource HeaderFontFamily}"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource OnSurfaceBrush}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="2"
+                                BorderBrush="{StaticResource OutlineVariantBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="14,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <PathIcon Width="14"
+                                              Height="14"
                                               Foreground="{StaticResource ErrorBrush}"
                                               Data="{StaticResource IconClose}" />
                                     <TextBlock Text="Failed"
@@ -102,7 +128,7 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Grid.Column="2"
+                        <Border Grid.Column="3"
                                 BorderBrush="{StaticResource OutlineVariantBrush}"
                                 BorderThickness="1"
                                 CornerRadius="10"
@@ -182,7 +208,7 @@
                                             <DataTemplate x:DataType="models:RemovalResultModel">
                                                 <Border BorderBrush="{StaticResource OutlineVariantBrush}"
                                                         BorderThickness="0,0,0,1"
-                                                        Padding="14,10">
+                                                        Padding="14,10,20,10">
                                                     <Grid ColumnDefinitions="Auto,*,Auto"
                                                           ColumnSpacing="12">
                                                         <Border Grid.Column="0"
@@ -195,10 +221,12 @@
                                                                 <Image Width="36"
                                                                        Height="36"
                                                                        Stretch="UniformToFill"
+                                                                       IsVisible="{Binding !App.HasIcon}"
                                                                        Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                                                 <Image Width="36"
                                                                        Height="36"
                                                                        Stretch="UniformToFill"
+                                                                       IsVisible="{Binding App.HasIcon}"
                                                                        Source="{Binding App.IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
                                                             </Panel>
                                                         </Border>
@@ -216,6 +244,11 @@
                                                                        Classes="Code"
                                                                        FontSize="11"
                                                                        TextTrimming="CharacterEllipsis" />
+                                                            <TextBlock Text="{Binding Message}"
+                                                                       FontSize="11"
+                                                                       Foreground="{StaticResource ErrorBrush}"
+                                                                       TextWrapping="Wrap"
+                                                                       IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                                                         </StackPanel>
 
                                                         <StackPanel Grid.Column="2"
@@ -235,6 +268,20 @@
                                                                            FontSize="13"
                                                                            FontWeight="Medium"
                                                                            Foreground="{StaticResource SuccessBrush}"
+                                                                           VerticalAlignment="Center" />
+                                                            </StackPanel>
+
+                                                            <StackPanel Orientation="Horizontal"
+                                                                        Spacing="6"
+                                                                        IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Disabled}}">
+                                                                <PathIcon Width="16"
+                                                                          Height="16"
+                                                                          Foreground="{StaticResource WarningBrush}"
+                                                                          Data="{StaticResource IconBlock}" />
+                                                                <TextBlock Text="Disabled"
+                                                                           FontSize="13"
+                                                                           FontWeight="Medium"
+                                                                           Foreground="{StaticResource WarningBrush}"
                                                                            VerticalAlignment="Center" />
                                                             </StackPanel>
 

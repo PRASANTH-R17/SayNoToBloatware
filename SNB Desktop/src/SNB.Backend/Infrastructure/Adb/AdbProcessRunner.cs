@@ -40,6 +40,11 @@ public sealed class AdbProcessRunner : IAdbExecutor
         var marketName = (await RunAdbAsync(["-s", serial, "shell", "getprop", "ro.product.marketname"], cancellationToken)).Trim();
         var marketingName = (await RunAdbAsync(["-s", serial, "shell", "getprop", "ro.config.marketing_name"], cancellationToken)).Trim();
         var vendorMarketName = (await RunAdbAsync(["-s", serial, "shell", "getprop", "ro.product.vendor.marketname"], cancellationToken)).Trim();
+        // vivo/iQOO devices leave the standard marketname props empty and expose the marketing name here.
+        var vivoMarketName = (await RunAdbAsync(["-s", serial, "shell", "getprop", "ro.vivo.market.name"], cancellationToken)).Trim();
+        var vivoReleaseName = (await RunAdbAsync(["-s", serial, "shell", "getprop", "ro.vivo.product.release.name"], cancellationToken)).Trim();
+        var sdkVersion = (await RunAdbAsync(["-s", serial, "shell", "getprop", "ro.build.version.sdk"], cancellationToken)).Trim();
+        var batteryOutput = await RunAdbAsync(["-s", serial, "shell", "dumpsys", "battery"], cancellationToken);
 
         if (string.IsNullOrWhiteSpace(serial))
         {
@@ -49,7 +54,7 @@ public sealed class AdbProcessRunner : IAdbExecutor
         var resolvedManufacturer = string.IsNullOrWhiteSpace(manufacturer) ? "Unknown" : manufacturer;
         var resolvedModel = string.IsNullOrWhiteSpace(model) ? "Unknown Device" : model;
         var resolvedBrand = string.IsNullOrWhiteSpace(brand) ? resolvedManufacturer : brand;
-        var resolvedMarketName = FirstNonEmpty(marketName, marketingName, vendorMarketName) ?? resolvedModel;
+        var resolvedMarketName = FirstNonEmpty(marketName, marketingName, vendorMarketName, vivoMarketName, vivoReleaseName) ?? resolvedModel;
 
         return new DeviceInfo
         {
@@ -58,8 +63,35 @@ public sealed class AdbProcessRunner : IAdbExecutor
             Model = resolvedModel,
             AndroidVersion = string.IsNullOrWhiteSpace(androidVersion) ? "Unknown" : androidVersion,
             Brand = resolvedBrand,
-            MarketName = resolvedMarketName
+            MarketName = resolvedMarketName,
+            SdkVersion = sdkVersion,
+            BatteryPercent = ParseBatteryLevel(batteryOutput)
         };
+    }
+
+    private static int ParseBatteryLevel(string dumpsysOutput)
+    {
+        if (string.IsNullOrWhiteSpace(dumpsysOutput))
+        {
+            return 0;
+        }
+
+        foreach (var rawLine in dumpsysOutput.Split('\n'))
+        {
+            var line = rawLine.Trim();
+            if (!line.StartsWith("level:", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var value = line["level:".Length..].Trim();
+            if (int.TryParse(value, out var level))
+            {
+                return Math.Clamp(level, 0, 100);
+            }
+        }
+
+        return 0;
     }
 
     public async Task<IReadOnlyList<string>> ListPackagesAsync(string serial, CancellationToken cancellationToken = default)
@@ -74,6 +106,14 @@ public sealed class AdbProcessRunner : IAdbExecutor
             ["-s", serial, "shell", "pm", "list", "packages", _options.BridgePackageName],
             cancellationToken);
         return AdbOutputParser.IsPackageInstalled(output, _options.BridgePackageName);
+    }
+
+    public async Task<int?> GetInstalledVersionCodeAsync(string serial, CancellationToken cancellationToken = default)
+    {
+        var output = await RunAdbAsync(
+            ["-s", serial, "shell", "dumpsys", "package", _options.BridgePackageName],
+            cancellationToken);
+        return AdbOutputParser.ParseVersionCode(output);
     }
 
     public async Task InstallBridgeAsync(string serial, string apkPath, bool reinstall, CancellationToken cancellationToken = default)
@@ -122,6 +162,15 @@ public sealed class AdbProcessRunner : IAdbExecutor
             ["-s", serial, "shell", "pm", "uninstall", "--user", "0", packageName],
             cancellationToken);
         var success = AdbOutputParser.IsUninstallSuccess(output);
+        return (success, output.Trim());
+    }
+
+    public async Task<(bool Success, string Output)> DisablePackageAsync(string serial, string packageName, CancellationToken cancellationToken = default)
+    {
+        var output = await RunAdbAsync(
+            ["-s", serial, "shell", "pm", "disable-user", "--user", "0", packageName],
+            cancellationToken);
+        var success = AdbOutputParser.IsDisableSuccess(output);
         return (success, output.Trim());
     }
 
@@ -182,7 +231,7 @@ public sealed class AdbProcessRunner : IAdbExecutor
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
 
-        await process.WaitForExitAsync(cancellationToken);
+        await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
 
         var stdout = outputBuilder.ToString();
         var stderr = errorBuilder.ToString();

@@ -28,6 +28,9 @@ public partial class RemovalCompleteViewModel : ObservableObject
     private int _removedCount;
 
     [ObservableProperty]
+    private int _disabledCount;
+
+    [ObservableProperty]
     private int _failedCount;
 
     [ObservableProperty]
@@ -45,6 +48,7 @@ public partial class RemovalCompleteViewModel : ObservableObject
     {
         Results.Clear();
         var removed = 0;
+        var disabled = 0;
         var failed = 0;
         var freedMb = 0.0;
 
@@ -56,6 +60,10 @@ public partial class RemovalCompleteViewModel : ObservableObject
                 removed++;
                 freedMb += GetSizeMb(result.App);
             }
+            else if (result.Status == RemovalStatus.Disabled)
+            {
+                disabled++;
+            }
             else if (result.Status == RemovalStatus.Failed)
             {
                 failed++;
@@ -63,6 +71,7 @@ public partial class RemovalCompleteViewModel : ObservableObject
         }
 
         RemovedCount = removed;
+        DisabledCount = disabled;
         FailedCount = failed;
         SpaceFreed = FormatStorage(freedMb);
         IsDetailsExpanded = true;
@@ -75,7 +84,14 @@ public partial class RemovalCompleteViewModel : ObservableObject
     private void ToggleDetails() => IsDetailsExpanded = !IsDetailsExpanded;
 
     [RelayCommand]
-    private void Close() => _navigation.CloseDialog();
+    private void Close()
+    {
+        _navigation.CloseDialog();
+
+        // Re-navigate so the applications list (a transient page) is rebuilt from the now-pruned
+        // catalog; otherwise the page still shows the just-removed apps as selected.
+        _navigation.NavigateTo<ApplicationsViewModel>();
+    }
 
     private static double GetSizeMb(ApplicationItemModel app) =>
         app.SizeBytes > 0

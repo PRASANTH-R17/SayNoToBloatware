@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:SNB.Desktop.Controls"
              xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              x:Class="SNB.Desktop.Controls.DeviceCardControl"
              x:Name="Root"
              x:DataType="controls:DeviceCardControl">
@@ -51,32 +52,32 @@
             </Border>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Spacing="2">
-                <TextBlock Classes="Caption" Text="Serial Number" />
+                <TextBlock Classes="Caption" Text="{l:Loc Card.Serial}" />
                 <TextBlock Text="{Binding #Root.Device.Serial}" Classes="Subtitle" FontSize="14" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="2" Spacing="2">
-                <TextBlock Classes="Caption" Text="Manufacturer" />
+                <TextBlock Classes="Caption" Text="{l:Loc Card.Manufacturer}" />
                 <TextBlock Text="{Binding #Root.Device.Manufacturer}" Classes="Subtitle" FontSize="14" />
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="1" Spacing="2">
-                <TextBlock Classes="Caption" Text="Model" />
+                <TextBlock Classes="Caption" Text="{l:Loc Card.Model}" />
                 <TextBlock Text="{Binding #Root.Device.Model}" Classes="Subtitle" FontSize="14" />
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="2" Spacing="2">
-                <TextBlock Classes="Caption" Text="First Connected" />
+                <TextBlock Classes="Caption" Text="{l:Loc Card.FirstConnected}" />
                 <TextBlock Text="{Binding #Root.Device.FirstConnected}" Classes="Subtitle" FontSize="14" />
             </StackPanel>
 
             <StackPanel Grid.Row="4" Grid.Column="1" Spacing="2">
-                <TextBlock Classes="Caption" Text="SDK Version" />
+                <TextBlock Classes="Caption" Text="{l:Loc Card.SdkVersion}" />
                 <TextBlock Text="{Binding #Root.Device.SdkVersion}" Classes="Subtitle" FontSize="14" />
             </StackPanel>
 
             <StackPanel Grid.Row="4" Grid.Column="2" Spacing="2">
-                <TextBlock Classes="Caption" Text="Battery" />
+                <TextBlock Classes="Caption" Text="{l:Loc Card.Battery}" />
                 <TextBlock Text="{Binding #Root.Device.BatteryPercent, StringFormat='{}{0}%'}" Classes="Subtitle" FontSize="14" />
             </StackPanel>
 
@@ -89,7 +90,7 @@
                     FontSize="13"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="Select Device"
+                    Content="{l:Loc Sidebar.SelectDevice}"
                     Command="{Binding #Root.SelectCommand}"
                     CommandParameter="{Binding #Root.Device}" />
         </Grid>

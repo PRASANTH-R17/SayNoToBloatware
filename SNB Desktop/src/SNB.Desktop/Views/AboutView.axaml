@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
              xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
              x:Class="SNB.Desktop.Views.AboutView"
              x:DataType="vm:AboutViewModel"
@@ -17,7 +18,7 @@
                            FontSize="22"
                            FontWeight="Bold"
                            Foreground="{StaticResource OnSurfaceBrush}" />
-                <TextBlock Text="Learn more about the application and the open-source project."
+                <TextBlock Text="{l:Loc About.Subtitle}"
                            FontSize="14"
                            Foreground="{StaticResource OnSurfaceVariantBrush}" />
             </StackPanel>
@@ -36,19 +37,11 @@
                           Margin="0,0,12,0"
                           ColumnDefinitions="Auto,*"
                           ColumnSpacing="20">
-                        <Border Grid.Column="0"
-                                Width="72"
-                                Height="72"
-                                CornerRadius="16"
-                                VerticalAlignment="Top"
-                                Background="{StaticResource PrimaryBrush}">
-                            <PathIcon Width="38"
-                                      Height="38"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Foreground="{StaticResource OnPrimaryBrush}"
-                                      Data="{StaticResource IconShield}" />
-                        </Border>
+                        <Image Grid.Column="0"
+                               Width="72"
+                               Height="72"
+                               VerticalAlignment="Top"
+                               Source="/Assets/logo.png" />
 
                         <StackPanel Grid.Column="1"
                                     MinWidth="0"
@@ -59,7 +52,7 @@
                                        FontWeight="Bold"
                                        Foreground="{StaticResource OnSurfaceBrush}" />
 
-                            <TextBlock Text="{Binding Tagline}"
+                            <TextBlock Text="{l:Loc Branding.Tagline}"
                                        FontSize="14"
                                        Foreground="{StaticResource OnSurfaceVariantBrush}"
                                        LineHeight="20" />
@@ -75,7 +68,7 @@
                                            Foreground="{StaticResource PrimaryBrush}" />
                             </Border>
 
-                            <TextBlock Text="{Binding Description}"
+                            <TextBlock Text="{l:Loc About.Description}"
                                        FontSize="13"
                                        Foreground="{StaticResource OnSurfaceVariantBrush}"
                                        LineHeight="19"
@@ -93,53 +86,6 @@
                             BorderBrush="{StaticResource SubtleDividerBrush}"
                             BorderThickness="1,0,0,0">
                         <StackPanel Spacing="12" VerticalAlignment="Top">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                                <Border Width="32"
-                                        Height="32"
-                                        CornerRadius="8"
-                                        VerticalAlignment="Top"
-                                        Background="{StaticResource PrimarySoftBrush}">
-                                    <PathIcon Width="16"
-                                              Height="16"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Foreground="{StaticResource PrimaryBrush}"
-                                              Data="{StaticResource IconCalendar}" />
-                                </Border>
-                                <StackPanel Grid.Column="1" Spacing="2">
-                                    <TextBlock Text="Release Date"
-                                               FontSize="12"
-                                               Foreground="{StaticResource OnSurfaceVariantBrush}" />
-                                    <TextBlock Text="{Binding ReleaseDate}"
-                                               FontSize="13"
-                                               Foreground="{StaticResource OnSurfaceBrush}" />
-                                </StackPanel>
-                            </Grid>
-
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                                <Border Width="32"
-                                        Height="32"
-                                        CornerRadius="8"
-                                        VerticalAlignment="Top"
-                                        Background="{StaticResource PrimarySoftBrush}">
-                                    <PathIcon Width="16"
-                                              Height="16"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Foreground="{StaticResource PrimaryBrush}"
-                                              Data="{StaticResource IconCodeBraces}" />
-                                </Border>
-                                <StackPanel Grid.Column="1" Spacing="2">
-                                    <TextBlock Text="Build"
-                                               FontSize="12"
-                                               Foreground="{StaticResource OnSurfaceVariantBrush}" />
-                                    <TextBlock Text="{Binding Build}"
-                                               FontSize="13"
-                                               Classes="Code"
-                                               Foreground="{StaticResource OnSurfaceBrush}" />
-                                </StackPanel>
-                            </Grid>
-
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                 <Border Width="32"
                                         Height="32"
@@ -252,7 +198,7 @@
                                    VerticalAlignment="Top" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="1"
-                                   Text="Visit the official website for more information."
+                                   Text="{l:Loc About.WebsiteDesc}"
                                    FontSize="12"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
                                    LineHeight="17"
@@ -268,7 +214,7 @@
                                 Command="{Binding OpenLinkCommand}"
                                 CommandParameter="{Binding WebsiteUrl}">
                             <StackPanel Orientation="Horizontal" Spacing="4">
-                                <TextBlock Text="snb.dev"
+                                <TextBlock Text="snb.prasanth.online"
                                            FontSize="13"
                                            Foreground="{StaticResource PrimaryBrush}" />
                                 <PathIcon Width="14"
@@ -318,7 +264,7 @@
                                    VerticalAlignment="Top" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="1"
-                                   Text="View source code, contribute, and star the project."
+                                   Text="{l:Loc About.GitHubDesc}"
                                    FontSize="12"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
                                    LineHeight="17"
@@ -384,7 +330,7 @@
                                    VerticalAlignment="Top" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="1"
-                                   Text="Found a bug or have a suggestion? Let us know."
+                                   Text="{l:Loc About.IssueDesc}"
                                    FontSize="12"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
                                    LineHeight="17"
@@ -450,7 +396,7 @@
                                    VerticalAlignment="Top" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="1"
-                                   Text="Learn how to use SNB Desktop effectively."
+                                   Text="{l:Loc About.DocDesc}"
                                    FontSize="12"
                                    Foreground="{StaticResource OnSurfaceVariantBrush}"
                                    LineHeight="17"

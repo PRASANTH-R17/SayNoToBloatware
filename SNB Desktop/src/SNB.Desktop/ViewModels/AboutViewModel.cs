@@ -18,10 +18,6 @@ public partial class AboutViewModel : ObservableObject
     public string Description =>
         "A free and open-source desktop application to help you safely identify and remove unwanted or bloat applications from your Android devices.";
 
-    public string ReleaseDate => "May 9, 2025";
-
-    public string Build => "1.0.0.20250509.1";
-
     public string Developer => "Prasanth R";
 
     public string Language => "English";
@@ -33,15 +29,15 @@ public partial class AboutViewModel : ObservableObject
     public string LicenseNotice =>
         "Say No to Bloatware is open-source software licensed under the MIT License.";
 
-    public string WebsiteUrl => "https://snb.dev";
+    public string WebsiteUrl => "https://snb.prasanth.online";
 
-    public string GitHubUrl => "https://github.com/prasanthrangan/snb";
+    public string GitHubUrl => "https://github.com/PRASANTH-R17/SayNoToBloatware";
 
-    public string IssuesUrl => "https://github.com/prasanthrangan/snb/issues";
+    public string IssuesUrl => "https://github.com/PRASANTH-R17/SayNoToBloatware/issues";
 
-    public string DocumentationUrl => "https://github.com/prasanthrangan/snb#readme";
+    public string DocumentationUrl => "https://prasanth-r17.github.io/SayNoToBloatware/";
 
-    public string LicenseUrl => "https://github.com/prasanthrangan/snb/blob/main/LICENSE";
+    public string LicenseUrl => "https://github.com/PRASANTH-R17/SayNoToBloatware/blob/main/LICENSE";
 
     [RelayCommand]
     private void OpenLink(string? url)

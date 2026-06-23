@@ -1,0 +1,14 @@
+{
+  "name": "generate-brand-images",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generates per-brand default phone images (phone frame + brand logo or brand-name text) for the Say No to Bloatware app.",
+  "type": "module",
+  "scripts": {
+    "generate": "node generate.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.1",
+    "simple-icons": "^13.0.0"
+  }
+}

@@ -1,0 +1,160 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        SNB Desktop light theme palette.
+        Values are aligned to the design.md Material 3 token set so the whole app
+        shares the same surfaces, accents, and text colors.
+        Naming: {Role}Color (raw Color) + {Role}Brush (SolidColorBrush).
+    -->
+
+    <!-- ===== Design tokens (design.md) ===== -->
+
+    <!-- Surfaces -->
+    <Color x:Key="SurfaceTintColor">#FAF8FF</Color>
+    <Color x:Key="SurfaceDimColor">#D2D9F4</Color>
+    <Color x:Key="SurfaceContainerLowestColor">#FFFFFF</Color>
+    <Color x:Key="SurfaceContainerLowColor">#F2F3FF</Color>
+    <Color x:Key="SurfaceContainerColor">#EAEDFF</Color>
+    <Color x:Key="SurfaceContainerHighColor">#E2E7FF</Color>
+    <Color x:Key="SurfaceContainerHighestColor">#DAE2FD</Color>
+
+    <!-- On-surface / outlines -->
+    <Color x:Key="OnSurfaceColor">#131B2E</Color>
+    <Color x:Key="OnSurfaceVariantColor">#434655</Color>
+    <Color x:Key="OutlineColor">#737686</Color>
+    <Color x:Key="OutlineVariantColor">#C3C6D7</Color>
+
+    <!-- Primary -->
+    <Color x:Key="PrimaryColor">#004AC6</Color>
+    <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+    <Color x:Key="PrimaryContainerColor">#2563EB</Color>
+    <Color x:Key="OnPrimaryContainerColor">#FFFFFF</Color>
+
+    <!-- Secondary -->
+    <Color x:Key="SecondaryColor">#505F76</Color>
+    <Color x:Key="OnSecondaryColor">#FFFFFF</Color>
+    <Color x:Key="SecondaryContainerColor">#D3E4FE</Color>
+    <Color x:Key="OnSecondaryContainerColor">#0B1C30</Color>
+
+    <!-- Error -->
+    <Color x:Key="ErrorColor">#BA1A1A</Color>
+    <Color x:Key="OnErrorColor">#FFFFFF</Color>
+    <Color x:Key="ErrorContainerColor">#FFDAD6</Color>
+    <Color x:Key="OnErrorContainerColor">#410002</Color>
+
+    <!-- ===== Existing semantic aliases (kept for the rest of the app) ===== -->
+
+    <!-- Brand / accent (blue) maps to primary -->
+    <Color x:Key="AccentColor">#004AC6</Color>
+    <Color x:Key="AccentHoverColor">#0A57DA</Color>
+    <Color x:Key="AccentPressedColor">#003693</Color>
+    <Color x:Key="AccentSoftColor">#DBE1FF</Color>
+
+    <!-- Semantic -->
+    <Color x:Key="SuccessColor">#16A34A</Color>
+    <Color x:Key="SuccessSoftColor">#E7F6EC</Color>
+    <Color x:Key="WarningColor">#D97706</Color>
+    <Color x:Key="WarningSoftColor">#FEF3E2</Color>
+    <Color x:Key="DangerColor">#BA1A1A</Color>
+    <Color x:Key="DangerHoverColor">#93000A</Color>
+    <Color x:Key="DangerSoftColor">#FFDAD6</Color>
+
+    <!-- Neutral grays mapped to design on-surface / outline tokens -->
+    <Color x:Key="TextPrimaryColor">#131B2E</Color>
+    <Color x:Key="TextSecondaryColor">#434655</Color>
+    <Color x:Key="TextMutedColor">#737686</Color>
+    <Color x:Key="BorderColor">#C3C6D7</Color>
+    <Color x:Key="DividerColor">#DAE2FD</Color>
+    <Color x:Key="SubtleOutlineColor">#E9ECF4</Color>
+    <Color x:Key="SubtleDividerColor">#F0F2F8</Color>
+    <Color x:Key="InfoColor">#7C3AED</Color>
+
+    <!-- Surfaces / backgrounds -->
+    <Color x:Key="BackgroundColor">#FAF8FF</Color>
+    <Color x:Key="SurfaceColor">#FFFFFF</Color>
+    <Color x:Key="SurfaceAltColor">#F2F3FF</Color>
+    <Color x:Key="SidebarColor">#F2F3FF</Color>
+    <Color x:Key="OverlayScrimColor">#66000000</Color>
+
+    <!-- ===== Brush resources ===== -->
+
+    <!-- Design-token brushes -->
+    <SolidColorBrush x:Key="SurfaceTintBrush" Color="{StaticResource SurfaceTintColor}" />
+    <SolidColorBrush x:Key="SurfaceDimBrush" Color="{StaticResource SurfaceDimColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerLowestBrush" Color="{StaticResource SurfaceContainerLowestColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerLowBrush" Color="{StaticResource SurfaceContainerLowColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerBrush" Color="{StaticResource SurfaceContainerColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerHighBrush" Color="{StaticResource SurfaceContainerHighColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerHighestBrush" Color="{StaticResource SurfaceContainerHighestColor}" />
+
+    <SolidColorBrush x:Key="OnSurfaceBrush" Color="{StaticResource OnSurfaceColor}" />
+    <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="{StaticResource OnSurfaceVariantColor}" />
+    <SolidColorBrush x:Key="OutlineBrush" Color="{StaticResource OutlineColor}" />
+    <SolidColorBrush x:Key="OutlineVariantBrush" Color="{StaticResource OutlineVariantColor}" />
+    <SolidColorBrush x:Key="SubtleOutlineBrush" Color="{StaticResource SubtleOutlineColor}" />
+    <SolidColorBrush x:Key="SubtleDividerBrush" Color="{StaticResource SubtleDividerColor}" />
+    <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}" />
+    <SolidColorBrush x:Key="InfoSoftBrush" Color="#7C3AED" Opacity="0.10" />
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
+    <SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}" />
+    <SolidColorBrush x:Key="PrimaryContainerBrush" Color="{StaticResource PrimaryContainerColor}" />
+    <SolidColorBrush x:Key="OnPrimaryContainerBrush" Color="{StaticResource OnPrimaryContainerColor}" />
+    <!-- primary/10 and primary/20 used by active filter chips -->
+    <SolidColorBrush x:Key="PrimarySoftBrush" Color="#004AC6" Opacity="0.08" />
+    <SolidColorBrush x:Key="PrimaryOutlineBrush" Color="#004AC6" Opacity="0.18" />
+    <SolidColorBrush x:Key="PrimaryMutedBrush" Color="#004AC6" Opacity="0.04" />
+    <SolidColorBrush x:Key="PrimaryContainerSoftBrush" Color="#2563EB" Opacity="0.12" />
+    <SolidColorBrush x:Key="SuccessOutlineBrush" Color="#16A34A" Opacity="0.16" />
+
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}" />
+    <SolidColorBrush x:Key="OnSecondaryBrush" Color="{StaticResource OnSecondaryColor}" />
+    <SolidColorBrush x:Key="SecondaryContainerBrush" Color="{StaticResource SecondaryContainerColor}" />
+    <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="{StaticResource OnSecondaryContainerColor}" />
+
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
+    <SolidColorBrush x:Key="OnErrorBrush" Color="{StaticResource OnErrorColor}" />
+    <SolidColorBrush x:Key="ErrorContainerBrush" Color="{StaticResource ErrorContainerColor}" />
+    <SolidColorBrush x:Key="OnErrorContainerBrush" Color="{StaticResource OnErrorContainerColor}" />
+
+    <!-- Existing aliases -->
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentHoverColor}" />
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="{StaticResource AccentPressedColor}" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="{StaticResource AccentSoftColor}" />
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+    <SolidColorBrush x:Key="SuccessSoftBrush" Color="{StaticResource SuccessSoftColor}" />
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}" />
+    <SolidColorBrush x:Key="WarningSoftBrush" Color="{StaticResource WarningSoftColor}" />
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}" />
+    <SolidColorBrush x:Key="DangerHoverBrush" Color="{StaticResource DangerHoverColor}" />
+    <SolidColorBrush x:Key="DangerSoftBrush" Color="{StaticResource DangerSoftColor}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+    <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource DividerColor}" />
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}" />
+    <SolidColorBrush x:Key="SurfaceAltBrush" Color="{StaticResource SurfaceAltColor}" />
+    <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarColor}" />
+    <SolidColorBrush x:Key="OverlayScrimBrush" Color="{StaticResource OverlayScrimColor}" />
+
+    <!-- Shared metrics (design.md radii) -->
+    <CornerRadius x:Key="CardCornerRadius">12</CornerRadius>
+    <CornerRadius x:Key="CardCornerRadiusXl">20</CornerRadius>
+    <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="ControlCornerRadiusLg">14</CornerRadius>
+    <CornerRadius x:Key="PillCornerRadius">999</CornerRadius>
+
+    <!-- Prefer requested design fonts when available, with sensible OS fallbacks. -->
+    <FontFamily x:Key="HeaderFontFamily">Hanken Grotesk, Inter, Segoe UI, Arial, sans-serif</FontFamily>
+    <FontFamily x:Key="BodyFontFamily">Inter, Segoe UI, Arial, sans-serif</FontFamily>
+    <FontFamily x:Key="AppFontFamily">Inter, Segoe UI, Arial, sans-serif</FontFamily>
+    <FontFamily x:Key="MonoFontFamily">JetBrains Mono, Cascadia Code, Cascadia Mono, Consolas, Menlo, monospace</FontFamily>
+
+</ResourceDictionary>

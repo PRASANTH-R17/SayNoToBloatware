@@ -1,0 +1,213 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Controls.SidebarControl"
+             x:DataType="vm:MainWindowViewModel">
+
+    <Border Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource OutlineVariantBrush}"
+            BorderThickness="0,0,1,0">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="14,16,12,12">
+            <StackPanel Grid.Row="0" Spacing="18">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Border Width="38"
+                            Height="38"
+                            CornerRadius="11"
+                            Background="{StaticResource PrimaryBrush}"
+                            VerticalAlignment="Top">
+                        <PathIcon Width="20"
+                                  Height="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource OnPrimaryBrush}"
+                                  Data="{StaticResource IconShield}" />
+                    </Border>
+                    <StackPanel Spacing="3" VerticalAlignment="Center">
+                        <TextBlock FontFamily="{StaticResource HeaderFontFamily}"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   Text="Say No to Bloatware" />
+                        <TextBlock FontSize="11"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   TextWrapping="Wrap"
+                                   MaxWidth="138"
+                                   LineHeight="15"
+                                   Text="Clean your Android device. Remove bloatware. Take control." />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <Button Classes="NavItem"
+                            Classes.Active="{Binding ActiveNavItem, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=Select Device}"
+                            IsVisible="{Binding !IsDeviceConnected}"
+                            Command="{Binding NavigateHomeCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <PathIcon Width="18" Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{Binding $parent[Button].Foreground}"
+                                      Data="{StaticResource IconSmartphone}" />
+                            <TextBlock Text="Select Device" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Classes="NavItem"
+                            Classes.Active="{Binding ActiveNavItem, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=Applications}"
+                            IsVisible="{Binding IsDeviceConnected}"
+                            Command="{Binding NavigateHomeCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <PathIcon Width="18" Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{Binding $parent[Button].Foreground}"
+                                      Data="{StaticResource IconApps}" />
+                            <TextBlock Text="Applications" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Classes="NavItem"
+                            Classes.Active="{Binding ActiveNavItem, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=Settings}"
+                            Command="{Binding NavigateSettingsCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <PathIcon Width="18" Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{Binding $parent[Button].Foreground}"
+                                      Data="{StaticResource IconSettings}" />
+                            <TextBlock Text="Settings" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Classes="NavItem"
+                            Classes.Active="{Binding ActiveNavItem, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=About}"
+                            Command="{Binding NavigateAboutCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <PathIcon Width="18" Height="18"
+                                      VerticalAlignment="Center"
+                                      Foreground="{Binding $parent[Button].Foreground}"
+                                      Data="{StaticResource IconInfo}" />
+                            <TextBlock Text="About" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Spacing="10">
+                <Border Background="{StaticResource PrimaryMutedBrush}"
+                        CornerRadius="14"
+                        Padding="14,12"
+                        IsVisible="{Binding !IsDeviceConnected}">
+                    <StackPanel Spacing="10">
+                        <Border Width="34"
+                                Height="34"
+                                CornerRadius="17"
+                                Background="{StaticResource PrimarySoftBrush}"
+                                HorizontalAlignment="Left">
+                            <PathIcon Width="17"
+                                      Height="17"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconInfo}" />
+                        </Border>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="USB Debugging"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+                            <TextBlock FontSize="12"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                       TextWrapping="Wrap"
+                                       LineHeight="17"
+                                       Text="Turn on USB debugging in Developer options so your phone can be detected." />
+                        </StackPanel>
+
+                        <Button Classes="Link"
+                                FontSize="12"
+                                Padding="0"
+                                HorizontalAlignment="Left"
+                                Content="Learn how →" />
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Spacing="10" IsVisible="{Binding IsDeviceConnected}">
+                    <Border Background="{StaticResource SurfaceContainerLowBrush}"
+                            CornerRadius="14"
+                            Padding="14,12">
+                        <StackPanel Spacing="10">
+                            <TextBlock Classes="Caption"
+                                       FontSize="11"
+                                       Text="Connected device" />
+
+                            <Image Height="78"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Source="{Binding SelectedDevice.ImagePath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{Binding SelectedDevice.Name}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource OnSurfaceBrush}"
+                                           TextWrapping="Wrap" />
+                                <TextBlock FontSize="12"
+                                           Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                           TextWrapping="Wrap">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} • {1}">
+                                            <Binding Path="SelectedDevice.AndroidVersionLabel" />
+                                            <Binding Path="SelectedDevice.Serial" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+
+                                <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,2,0,0">
+                                    <Ellipse Width="7"
+                                             Height="7"
+                                             Fill="{StaticResource SuccessBrush}"
+                                             VerticalAlignment="Center" />
+                                    <TextBlock Text="Connected"
+                                               FontSize="11"
+                                               FontWeight="Medium"
+                                               Foreground="{StaticResource SuccessBrush}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Classes="Secondary"
+                            Content="Change Device"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            MinHeight="36"
+                            Command="{Binding ChangeDeviceCommand}" />
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Grid.Row="2" Margin="0,12,0,0" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <TextBlock Classes="Muted"
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           Text="{x:Static vm:MainWindowViewModel.AppVersion}" />
+                <Panel Grid.Column="1"
+                       Width="12"
+                       Height="12"
+                       VerticalAlignment="Center"
+                       ToolTip.Tip="Ready">
+                    <Ellipse Width="12"
+                             Height="12"
+                             Fill="#2616A34A" />
+                    <Ellipse Width="8"
+                             Height="8"
+                             Fill="{StaticResource SuccessBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center" />
+                </Panel>
+            </Grid>
+        </Grid>
+    </Border>
+
+</UserControl>

@@ -1,0 +1,702 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Shared control styles. Apply via Classes, e.g.
+            <Border Classes="Card"> ... </Border>
+            <Button Classes="Primary" Content="Select Device" />
+            <Button Classes="Secondary" Content="Refresh" />
+            <Button Classes="Danger" Content="Remove" />
+            <Button Classes="Link" Content="View Alternatives" />
+            <TextBox Classes="Search" Watermark="Search apps..." />
+            <RadioButton Classes="Tab" Content="All Apps" />
+    -->
+
+    <!-- ===== Card ===== -->
+    <Style Selector="Border.Card">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SurfaceContainerHighBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadiusXl}" />
+        <Setter Property="Padding" Value="28" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Border.Card:pointerover">
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+    </Style>
+
+    <Style Selector="Border.CardFlat">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style Selector="Border.Panel">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowestBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadiusXl}" />
+        <Setter Property="Padding" Value="24" />
+    </Style>
+
+    <Style Selector="Border.TonalPanel">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SurfaceContainerHighBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadiusLg}" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style Selector="Border.PrimaryPanel">
+        <Setter Property="Background" Value="{StaticResource PrimaryMutedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryOutlineBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadiusLg}" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style Selector="Border.StatusChip">
+        <Setter Property="CornerRadius" Value="{StaticResource PillCornerRadius}" />
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Border.AppCard">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleOutlineBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="14,12" />
+        <Setter Property="MinHeight" Value="70" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Border.AppCard:pointerover">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+    </Style>
+    <Style Selector="Border.AppCard.selected">
+        <Setter Property="Background" Value="{StaticResource PrimaryMutedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryOutlineBrush}" />
+    </Style>
+    <Style Selector="Border.AppCard.selected:pointerover">
+        <Setter Property="Background" Value="{StaticResource PrimarySoftBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryOutlineBrush}" />
+    </Style>
+
+    <Style Selector="Border.AppCard Button.CardMenu">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Border.AppCard Button.CardMenu /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Border.AppCard Button.CardMenu:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerHighBrush}" />
+    </Style>
+
+    <!-- Squircle select checkbox on application rows -->
+    <Style Selector="CheckBox.AppSelect">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="MinWidth" Value="20" />
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FocusAdorner" Value="{x:Null}" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="CheckBox">
+                <Border Name="BoxBorder"
+                        Width="20"
+                        Height="20"
+                        CornerRadius="7"
+                        BorderThickness="1.5"
+                        BorderBrush="{StaticResource OutlineVariantBrush}"
+                        Background="{StaticResource SurfaceBrush}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <Path Name="CheckGlyph"
+                          Width="11"
+                          Height="11"
+                          Stretch="Uniform"
+                          Stroke="White"
+                          StrokeThickness="2.25"
+                          StrokeLineCap="Round"
+                          StrokeJoin="Round"
+                          Fill="Transparent"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          IsVisible="False"
+                          Data="{StaticResource IconCheckTick}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="CheckBox.AppSelect:checked /template/ Border#BoxBorder">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+    <Style Selector="CheckBox.AppSelect:checked /template/ Path#CheckGlyph">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="CheckBox.AppSelect:pointerover /template/ Border#BoxBorder">
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+    <Style Selector="CheckBox.AppSelect:checked:pointerover /template/ Border#BoxBorder">
+        <Setter Property="Background" Value="{StaticResource PrimaryContainerBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryContainerBrush}" />
+    </Style>
+
+    <!-- ===== Window caption controls (custom title bar) ===== -->
+    <Style Selector="Border.TitleBar">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+
+    <Style Selector="Button.WindowControl">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.WindowControl /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.WindowControl:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerHighBrush}" />
+    </Style>
+    <Style Selector="Button.WindowControl.Close:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+    </Style>
+    <Style Selector="Button.WindowControl.Close:pointerover PathIcon">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!-- ===== Primary button ===== -->
+    <Style Selector="Button.Primary">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadiusLg}" />
+        <Setter Property="Padding" Value="20,12" />
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Primary /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource AccentHoverBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.Primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource AccentPressedBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.Primary.DeviceSelect">
+        <Setter Property="Background" Value="#0B57D0" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.Primary.DeviceSelect /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#0B57D0" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Primary.DeviceSelect:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#1666E4" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.Primary.DeviceSelect:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#0847AE" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.PrimaryHero">
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="Padding" Value="22,13" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- ===== Secondary button ===== -->
+    <Style Selector="Button.Secondary">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowestBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadiusLg}" />
+        <Setter Property="Padding" Value="18,12" />
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Secondary /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowestBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Secondary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style Selector="Button.OutlinePrimary">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryOutlineBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadiusLg}" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="MinHeight" Value="42" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.OutlinePrimary /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.OutlinePrimary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource PrimarySoftBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+
+    <!-- ===== Danger button ===== -->
+    <Style Selector="Button.Danger">
+        <Setter Property="Background" Value="{StaticResource DangerBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.Danger /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource DangerBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.Danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource DangerHoverBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.DangerSoft">
+        <Setter Property="Background" Value="{StaticResource DangerSoftBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+        <Setter Property="BorderBrush" Value="#F5C2C2" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadiusLg}" />
+        <Setter Property="Padding" Value="14,8" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.DangerSoft /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource DangerSoftBrush}" />
+    </Style>
+    <Style Selector="Button.DangerSoft:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#FFDAD6" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource ErrorBrush}" />
+    </Style>
+    <Style Selector="Button.DangerSoft:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+    </Style>
+
+    <!-- Applications list footer — remove selected (inactive + active) -->
+    <Style Selector="Button.RemoveSelected">
+        <Setter Property="Background" Value="#EDF2F7" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.RemoveSelected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#EDF2F7" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#E2E8F0" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:disabled">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#EDF2F7" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:disabled PathIcon">
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:not(:disabled)">
+        <Setter Property="Background" Value="{StaticResource DangerSoftBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:not(:disabled) /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource DangerSoftBrush}" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:not(:disabled):pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#FFDAD6" />
+    </Style>
+    <Style Selector="Button.RemoveSelected:not(:disabled) PathIcon">
+        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+    </Style>
+
+    <!-- Applications list footer bar -->
+    <Style Selector="Border.AppListFooter">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleOutlineBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="BoxShadow" Value="0 1 4 0 #0A000000" />
+    </Style>
+
+    <!-- ===== Link button ===== -->
+    <Style Selector="Button.Link">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Link /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Link:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource AccentHoverBrush}" />
+    </Style>
+
+    <Style Selector="Border.BottomNavBar">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowestBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="28" />
+        <Setter Property="Padding" Value="12" />
+    </Style>
+
+    <Style Selector="Button.BottomNavItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="CornerRadius" Value="22" />
+        <Setter Property="Padding" Value="18,12" />
+        <Setter Property="MinHeight" Value="72" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.BottomNavItem /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.BottomNavItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceContainerLowBrush}" />
+    </Style>
+    <Style Selector="Button.BottomNavItem.Active">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.BottomNavItem.Active /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource PrimaryContainerBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.BottomNavItem.Active:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource PrimaryContainerBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+    </Style>
+
+    <!-- ===== Sidebar nav item (used by SidebarControl) ===== -->
+    <Style Selector="Button.NavItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+                <BrushTransition Property="Foreground" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.NavItem /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.NavItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+    <!-- Active nav item: soft blue fill with leading blue accent bar -->
+    <Style Selector="Button.NavItem.Active">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="4,0,0,0" />
+    </Style>
+    <Style Selector="Button.NavItem.Active /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+    <Style Selector="Button.NavItem.Active:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+
+    <!-- ===== Search TextBox ===== -->
+    <Style Selector="TextBox.Search">
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleOutlineBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="MinHeight" Value="36" />
+    </Style>
+    <Style Selector="TextBox.Search:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <!-- ===== Applications toolbar controls (search / filter / sort row) ===== -->
+    <Style Selector="Button.Secondary.Toolbar">
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleOutlineBrush}" />
+    </Style>
+    <Style Selector="ComboBox.Toolbar">
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleOutlineBrush}" />
+    </Style>
+
+    <!-- ===== Underline tabs (Applications page filters) ===== -->
+    <Style Selector="RadioButton.Tab">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="0,8,0,12" />
+        <Setter Property="Margin" Value="0,0,28,0" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_Border"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0,0,0,3"
+                        Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Foreground" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="RadioButton.Tab:pointerover">
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
+    </Style>
+    <Style Selector="RadioButton.Tab:checked">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+    <Style Selector="RadioButton.Tab:checked /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+
+    <!-- ===== List rows ===== -->
+    <Style Selector="ListBox.Rows">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="ListBox.Rows ListBoxItem">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+    </Style>
+
+    <!-- ===== Toggle switch (accent when on) ===== -->
+    <Style Selector="ToggleSwitch">
+        <Setter Property="OnContent" Value="" />
+        <Setter Property="OffContent" Value="" />
+    </Style>
+    <Style Selector="ToggleSwitch:checked /template/ Border#SwitchKnobBounds">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <!-- ===== ComboBox (settings dropdowns) ===== -->
+    <Style Selector="ComboBox">
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleOutlineBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
+    </Style>
+
+    <!-- ===== DataGrid ===== -->
+    <Style Selector="DataGrid">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="RowHeight" Value="48" />
+        <Setter Property="ColumnHeaderHeight" Value="40" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource SurfaceAltBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+
+    <Style Selector="DataGridRow">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+    </Style>
+
+    <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+        <Setter Property="Fill" Value="{StaticResource SurfaceAltBrush}" />
+    </Style>
+
+    <Style Selector="DataGridCell">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="16,4" />
+    </Style>
+
+    <Style Selector="DataGridCell TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+</Styles>

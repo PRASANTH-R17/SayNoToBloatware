@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             x:Class="SNB.Desktop.Controls.LoadingSpinner"
+             x:Name="Root"
+             x:DataType="controls:LoadingSpinner"
+             Width="16"
+             Height="16">
+
+    <Viewbox Width="16"
+             Height="16"
+             Stretch="Uniform">
+        <Path Data="{StaticResource IconLoadingArc}"
+              Stroke="{Binding #Root.SpinnerForeground}"
+              StrokeThickness="2.5"
+              StrokeLineCap="Round"
+              Width="24"
+              Height="24" />
+    </Viewbox>
+
+</UserControl>

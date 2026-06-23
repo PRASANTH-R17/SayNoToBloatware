@@ -1,0 +1,107 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:SNB.Desktop.Controls"
+        xmlns:vm="using:SNB.Desktop.ViewModels"
+        x:Class="SNB.Desktop.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Say No to Bloatware"
+        Width="1024"
+        Height="680"
+        MinWidth="860"
+        MinHeight="600"
+        WindowState="Maximized"
+        FontFamily="{StaticResource AppFontFamily}"
+        Background="{StaticResource BackgroundBrush}"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="48">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Border Grid.Row="0"
+                Classes="TitleBar">
+            <Grid ColumnDefinitions="*,Auto">
+                <Border Grid.Column="0"
+                        Background="Transparent"
+                        VerticalAlignment="Stretch"
+                        PointerPressed="TitleBar_PointerPressed">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="8"
+                                Margin="16,0,0,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left">
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource PrimaryBrush}"
+                                  Data="{StaticResource IconShield}" />
+                        <TextBlock Text="Say No to Bloatware"
+                                   FontFamily="{StaticResource HeaderFontFamily}"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Stretch">
+                    <Button Classes="WindowControl" Click="Minimize_Click">
+                        <PathIcon Width="11"
+                                  Height="11"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconMinimize}" />
+                    </Button>
+                    <Button x:Name="MaximizeButton"
+                            Classes="WindowControl"
+                            Click="Maximize_Click">
+                        <PathIcon x:Name="MaximizeIcon"
+                                  Width="11"
+                                  Height="11"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconMaximize}" />
+                    </Button>
+                    <Button Classes="WindowControl Close" Click="Close_Click">
+                        <PathIcon Width="11"
+                                  Height="11"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconClose}" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid ColumnDefinitions="216,*">
+                <controls:SidebarControl Grid.Column="0"
+                                         DataContext="{Binding}" />
+
+                <Border Grid.Column="1"
+                        Background="{StaticResource BackgroundBrush}"
+                        Padding="18,16,18,14">
+                    <ContentControl Content="{Binding CurrentPage}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" />
+                </Border>
+            </Grid>
+
+            <Grid IsVisible="{Binding CurrentPanel, Converter={x:Static ObjectConverters.IsNotNull}}"
+                  ZIndex="50">
+                <Panel Background="{StaticResource OverlayScrimBrush}" />
+                <ContentControl Content="{Binding CurrentPanel}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                Width="400" />
+            </Grid>
+
+            <Panel IsVisible="{Binding CurrentDialog, Converter={x:Static ObjectConverters.IsNotNull}}"
+                   Background="{StaticResource OverlayScrimBrush}"
+                   ZIndex="100">
+                <ContentControl Content="{Binding CurrentDialog}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+            </Panel>
+        </Grid>
+    </Grid>
+</Window>

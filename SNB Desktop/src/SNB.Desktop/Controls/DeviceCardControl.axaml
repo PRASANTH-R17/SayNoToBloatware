@@ -1,0 +1,98 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             x:Class="SNB.Desktop.Controls.DeviceCardControl"
+             x:Name="Root"
+             x:DataType="controls:DeviceCardControl">
+
+    <Border Classes="Card"
+            Padding="18,12"
+            CornerRadius="18"
+            Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource OutlineVariantBrush}">
+        <Grid ColumnDefinitions="196,1.35*,1.35*,180"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+              ColumnSpacing="22"
+              RowSpacing="6">
+            <Border Grid.RowSpan="5"
+                    Width="190"
+                    Height="118"
+                    CornerRadius="16"
+                    Background="{StaticResource SurfaceBrush}"
+                    BorderThickness="0"
+                    Padding="0"
+                    VerticalAlignment="Center">
+                <controls:DeviceImageControl ImagePath="{Binding #Root.Device.ImagePath}"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
+            </Border>
+
+            <TextBlock Grid.Column="1"
+                       Grid.ColumnSpan="2"
+                       Text="{Binding #Root.Device.Name}"
+                       Classes="DeviceName"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center" />
+
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Classes="StatusChip"
+                    Background="{StaticResource SuccessSoftBrush}"
+                    BorderBrush="{StaticResource SuccessOutlineBrush}"
+                    Padding="8,3"
+                    HorizontalAlignment="Left">
+                <TextBlock Text="{Binding #Root.Device.AndroidVersionLabel}"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource SuccessBrush}" />
+            </Border>
+
+            <StackPanel Grid.Row="2" Grid.Column="1" Spacing="2">
+                <TextBlock Classes="Caption" Text="Serial Number" />
+                <TextBlock Text="{Binding #Root.Device.Serial}" Classes="Subtitle" FontSize="14" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.Column="2" Spacing="2">
+                <TextBlock Classes="Caption" Text="Manufacturer" />
+                <TextBlock Text="{Binding #Root.Device.Manufacturer}" Classes="Subtitle" FontSize="14" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.Column="1" Spacing="2">
+                <TextBlock Classes="Caption" Text="Model" />
+                <TextBlock Text="{Binding #Root.Device.Model}" Classes="Subtitle" FontSize="14" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.Column="2" Spacing="2">
+                <TextBlock Classes="Caption" Text="First Connected" />
+                <TextBlock Text="{Binding #Root.Device.FirstConnected}" Classes="Subtitle" FontSize="14" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Grid.Column="1" Spacing="2">
+                <TextBlock Classes="Caption" Text="SDK Version" />
+                <TextBlock Text="{Binding #Root.Device.SdkVersion}" Classes="Subtitle" FontSize="14" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Grid.Column="2" Spacing="2">
+                <TextBlock Classes="Caption" Text="Battery" />
+                <TextBlock Text="{Binding #Root.Device.BatteryPercent, StringFormat='{}{0}%'}" Classes="Subtitle" FontSize="14" />
+            </StackPanel>
+
+            <Button Grid.Column="3"
+                    Grid.RowSpan="5"
+                    Classes="Primary DeviceSelect"
+                    MinWidth="148"
+                    MinHeight="40"
+                    Padding="18,8"
+                    FontSize="13"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Select Device"
+                    Command="{Binding #Root.SelectCommand}"
+                    CommandParameter="{Binding #Root.Device}" />
+        </Grid>
+    </Border>
+
+</UserControl>

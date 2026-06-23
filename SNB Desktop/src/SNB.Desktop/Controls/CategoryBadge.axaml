@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             x:Class="SNB.Desktop.Controls.CategoryBadge"
+             x:Name="Root"
+             x:DataType="controls:CategoryBadge">
+
+    <Border Background="{Binding #Root.BadgeBackground}"
+            CornerRadius="{StaticResource PillCornerRadius}"
+            Padding="{Binding #Root.BadgePadding}"
+            MinWidth="{Binding #Root.BadgeMinWidth}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+        <TextBlock Text="{Binding #Root.BadgeText}"
+                   Foreground="{Binding #Root.BadgeForeground}"
+                   FontSize="{Binding #Root.BadgeFontSize}"
+                   FontWeight="SemiBold"
+                   TextAlignment="Center" />
+    </Border>
+
+</UserControl>

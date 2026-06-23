@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+        xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+        mc:Ignorable="d"
+        x:Class="SNB.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Say No to Bloatware"
+        Width="1280" Height="720"
+        MinWidth="1100" MinHeight="680"
+        Background="{StaticResource BackgroundBrush}">
+
+    <Grid>
+        <!-- Shell: sidebar + content -->
+        <Grid ColumnDefinitions="240,*">
+            <controls:SidebarControl Grid.Column="0" />
+
+            <Border Grid.Column="1" Background="{StaticResource BackgroundBrush}">
+                <ContentControl Content="{Binding CurrentPage}" />
+            </Border>
+        </Grid>
+
+        <!-- Overlay layer: dim scrim + dialog (centered) + panel (docked right) -->
+        <Panel IsVisible="{Binding IsOverlayVisible}">
+            <Border Background="{StaticResource OverlayScrimBrush}" />
+
+            <ContentControl Content="{Binding CurrentPanel}"
+                            IsVisible="{Binding IsPanelOpen}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Stretch" />
+
+            <ContentControl Content="{Binding CurrentDialog}"
+                            IsVisible="{Binding IsDialogOpen}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+        </Panel>
+    </Grid>
+
+</Window>

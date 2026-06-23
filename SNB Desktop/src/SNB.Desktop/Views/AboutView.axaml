@@ -1,0 +1,486 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Views.AboutView"
+             x:DataType="vm:AboutViewModel"
+             VerticalAlignment="Stretch">
+
+    <ScrollViewer Background="{StaticResource SurfaceTintBrush}"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20,10,20,24"
+                    Spacing="16"
+                    HorizontalAlignment="Stretch">
+
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="About Say No to Bloatware"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource OnSurfaceBrush}" />
+                <TextBlock Text="{l:Loc About.Subtitle}"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+            </StackPanel>
+
+            <!-- Primary info card: logo + branding | metadata -->
+            <Border Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource SubtleOutlineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="24,22">
+                <Grid ColumnDefinitions="11*,9*"
+                      ColumnSpacing="16">
+                    <!-- Left: logo + branding -->
+                    <Grid Grid.Column="0"
+                          MinWidth="0"
+                          Margin="0,0,12,0"
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="20">
+                        <Image Grid.Column="0"
+                               Width="72"
+                               Height="72"
+                               VerticalAlignment="Top"
+                               Source="/Assets/logo.png" />
+
+                        <StackPanel Grid.Column="1"
+                                    MinWidth="0"
+                                    VerticalAlignment="Top"
+                                    Spacing="6">
+                            <TextBlock Text="{Binding AppName}"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource OnSurfaceBrush}" />
+
+                            <TextBlock Text="{l:Loc Branding.Tagline}"
+                                       FontSize="14"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                       LineHeight="20" />
+
+                            <Border Background="{StaticResource PrimaryContainerSoftBrush}"
+                                    CornerRadius="{StaticResource PillCornerRadius}"
+                                    Padding="10,5"
+                                    Margin="0,2,0,0"
+                                    HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding Version, StringFormat='Version {0}'}"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource PrimaryBrush}" />
+                            </Border>
+
+                            <TextBlock Text="{l:Loc About.Description}"
+                                       FontSize="13"
+                                       Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                       LineHeight="19"
+                                       Margin="0,10,16,0"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Left" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Metadata sidebar -->
+                    <Border Grid.Column="1"
+                            MinWidth="0"
+                            Padding="16,0,0,0"
+                            VerticalAlignment="Top"
+                            BorderBrush="{StaticResource SubtleDividerBrush}"
+                            BorderThickness="1,0,0,0">
+                        <StackPanel Spacing="12" VerticalAlignment="Top">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Border Width="32"
+                                        Height="32"
+                                        CornerRadius="8"
+                                        VerticalAlignment="Top"
+                                        Background="{StaticResource PrimarySoftBrush}">
+                                    <PathIcon Width="16"
+                                              Height="16"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Foreground="{StaticResource PrimaryBrush}"
+                                              Data="{StaticResource IconAccount}" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="Developer"
+                                               FontSize="12"
+                                               Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                                    <TextBlock Text="{Binding Developer}"
+                                               FontSize="13"
+                                               Foreground="{StaticResource OnSurfaceBrush}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Border Width="32"
+                                        Height="32"
+                                        CornerRadius="8"
+                                        VerticalAlignment="Top"
+                                        Background="{StaticResource PrimarySoftBrush}">
+                                    <PathIcon Width="16"
+                                              Height="16"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Foreground="{StaticResource PrimaryBrush}"
+                                              Data="{StaticResource IconGlobe}" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="Language"
+                                               FontSize="12"
+                                               Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                                    <TextBlock Text="{Binding Language}"
+                                               FontSize="13"
+                                               Foreground="{StaticResource OnSurfaceBrush}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Border Width="32"
+                                        Height="32"
+                                        CornerRadius="8"
+                                        VerticalAlignment="Top"
+                                        Background="{StaticResource PrimarySoftBrush}">
+                                    <PathIcon Width="16"
+                                              Height="16"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Foreground="{StaticResource PrimaryBrush}"
+                                              Data="{StaticResource IconShieldCheck}" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="License"
+                                               FontSize="12"
+                                               Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                                    <TextBlock Text="{Binding License}"
+                                               FontSize="13"
+                                               Foreground="{StaticResource OnSurfaceBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Link cards (equal height, links aligned at bottom) -->
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="14">
+                <!-- Website -->
+                <Border Grid.Column="0"
+                        MinWidth="0"
+                        MinHeight="132"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource SurfaceBrush}"
+                        BorderBrush="{StaticResource SubtleOutlineBrush}"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="18,16">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto"
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="12">
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                CornerRadius="12"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource PrimarySoftBrush}">
+                            <PathIcon Width="26"
+                                      Height="26"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconGlobe}" />
+                        </Border>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="Website"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   VerticalAlignment="Top" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{l:Loc About.WebsiteDesc}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   LineHeight="17"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,0" />
+                        <Button Grid.Row="3"
+                                Grid.Column="1"
+                                Classes="Link"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Padding="0"
+                                Foreground="{StaticResource PrimaryBrush}"
+                                Command="{Binding OpenLinkCommand}"
+                                CommandParameter="{Binding WebsiteUrl}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock Text="snb.prasanth.online"
+                                           FontSize="13"
+                                           Foreground="{StaticResource PrimaryBrush}" />
+                                <PathIcon Width="14"
+                                          Height="14"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource PrimaryBrush}"
+                                          Data="{StaticResource IconOpenInNew}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- GitHub -->
+                <Border Grid.Column="1"
+                        MinWidth="0"
+                        MinHeight="132"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource SurfaceBrush}"
+                        BorderBrush="{StaticResource SubtleOutlineBrush}"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="18,16">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto"
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="12">
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                CornerRadius="12"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource SurfaceContainerLowBrush}">
+                            <PathIcon Width="26"
+                                      Height="26"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource OnSurfaceBrush}"
+                                      Data="{StaticResource IconGitHub}" />
+                        </Border>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="GitHub Repository"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   VerticalAlignment="Top" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{l:Loc About.GitHubDesc}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   LineHeight="17"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,0" />
+                        <Button Grid.Row="3"
+                                Grid.Column="1"
+                                Classes="Link"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Padding="0"
+                                Foreground="{StaticResource PrimaryBrush}"
+                                Command="{Binding OpenLinkCommand}"
+                                CommandParameter="{Binding GitHubUrl}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock Text="View on GitHub"
+                                           FontSize="13"
+                                           Foreground="{StaticResource PrimaryBrush}" />
+                                <PathIcon Width="14"
+                                          Height="14"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource PrimaryBrush}"
+                                          Data="{StaticResource IconOpenInNew}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Report Issue -->
+                <Border Grid.Column="2"
+                        MinWidth="0"
+                        MinHeight="132"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource SurfaceBrush}"
+                        BorderBrush="{StaticResource SubtleOutlineBrush}"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="18,16">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto"
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="12">
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                CornerRadius="12"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource DangerSoftBrush}">
+                            <PathIcon Width="26"
+                                      Height="26"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource ErrorBrush}"
+                                      Data="{StaticResource IconBug}" />
+                        </Border>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="Report an Issue"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   VerticalAlignment="Top" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{l:Loc About.IssueDesc}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   LineHeight="17"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,0" />
+                        <Button Grid.Row="3"
+                                Grid.Column="1"
+                                Classes="Link"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Padding="0"
+                                Foreground="{StaticResource PrimaryBrush}"
+                                Command="{Binding OpenLinkCommand}"
+                                CommandParameter="{Binding IssuesUrl}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock Text="GitHub Issues"
+                                           FontSize="13"
+                                           Foreground="{StaticResource PrimaryBrush}" />
+                                <PathIcon Width="14"
+                                          Height="14"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource PrimaryBrush}"
+                                          Data="{StaticResource IconOpenInNew}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Documentation -->
+                <Border Grid.Column="3"
+                        MinWidth="0"
+                        MinHeight="132"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource SurfaceBrush}"
+                        BorderBrush="{StaticResource SubtleOutlineBrush}"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="18,16">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto"
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="12">
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                CornerRadius="12"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource InfoSoftBrush}">
+                            <PathIcon Width="26"
+                                      Height="26"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Foreground="{StaticResource InfoBrush}"
+                                      Data="{StaticResource IconBook}" />
+                        </Border>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="Documentation"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   VerticalAlignment="Top" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{l:Loc About.DocDesc}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   LineHeight="17"
+                                   TextWrapping="Wrap"
+                                   Margin="0,4,0,0" />
+                        <Button Grid.Row="3"
+                                Grid.Column="1"
+                                Classes="Link"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Padding="0"
+                                Foreground="{StaticResource PrimaryBrush}"
+                                Command="{Binding OpenLinkCommand}"
+                                CommandParameter="{Binding DocumentationUrl}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock Text="Read Documentation"
+                                           FontSize="13"
+                                           Foreground="{StaticResource PrimaryBrush}" />
+                                <PathIcon Width="14"
+                                          Height="14"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource PrimaryBrush}"
+                                          Data="{StaticResource IconOpenInNew}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- License card -->
+            <Border Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource SubtleOutlineBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="18,16">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border Grid.Column="0"
+                            Width="40"
+                            Height="40"
+                            CornerRadius="10"
+                            VerticalAlignment="Top"
+                            Background="{StaticResource SuccessSoftBrush}">
+                        <PathIcon Width="22"
+                                  Height="22"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource SuccessBrush}"
+                                  Data="{StaticResource IconDocument}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Spacing="8">
+                        <TextBlock Text="License"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}" />
+                        <TextBlock Text="{Binding LicenseNotice}"
+                                   FontSize="13"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   LineHeight="19" />
+                        <Button Classes="Link"
+                                HorizontalAlignment="Left"
+                                Padding="0,2"
+                                Command="{Binding OpenLinkCommand}"
+                                CommandParameter="{Binding LicenseUrl}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock Text="View MIT License" FontSize="13" />
+                                <PathIcon Width="14"
+                                          Height="14"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource PrimaryBrush}"
+                                          Data="{StaticResource IconOpenInNew}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Copyright -->
+            <TextBlock Text="{Binding Copyright}"
+                       FontSize="12"
+                       Foreground="{StaticResource OnSurfaceVariantBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,4,0,0" />
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

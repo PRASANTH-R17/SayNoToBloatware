@@ -135,5 +135,6 @@ public sealed class DatabaseInitializerTests
     private sealed class TestPathProvider(string baseDirectory) : IPathProvider
     {
         public string BaseDirectory { get; } = baseDirectory;
+        public string DataDirectory { get; } = baseDirectory;
     }
 }

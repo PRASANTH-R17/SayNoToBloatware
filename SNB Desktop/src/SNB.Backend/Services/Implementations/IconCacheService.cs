@@ -14,7 +14,7 @@ public sealed class IconCacheService : IIconCacheService
         _appIconRepository = appIconRepository;
     }
 
-    public string IconsDirectory => Path.Combine(_pathProvider.BaseDirectory, "Cache", "Icons");
+    public string IconsDirectory => Path.Combine(_pathProvider.DataDirectory, "Cache", "Icons");
 
     public int Count => _cachedPackages.Count;
 

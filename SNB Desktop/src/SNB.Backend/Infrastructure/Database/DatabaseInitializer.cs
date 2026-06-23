@@ -13,7 +13,7 @@ public sealed class DatabaseInitializer : IDatabaseInitializer
     }
 
     public string DatabasePath =>
-        Path.Combine(_pathProvider.BaseDirectory, "Cache", "snb.db");
+        Path.Combine(_pathProvider.DataDirectory, "Cache", "snb.db");
 
     private string DefaultDatabasePath =>
         Path.Combine(_pathProvider.BaseDirectory, "Default", "snb.db");

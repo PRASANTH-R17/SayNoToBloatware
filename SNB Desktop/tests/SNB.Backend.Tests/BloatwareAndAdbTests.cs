@@ -184,6 +184,7 @@ public class IconCacheServiceTests
     private sealed class TestPathProvider(string baseDirectory) : IPathProvider
     {
         public string BaseDirectory { get; } = baseDirectory;
+        public string DataDirectory { get; } = baseDirectory;
     }
 
     private sealed class InMemoryAppIconRepository : IAppIconRepository

@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             x:Class="SNB.Desktop.Controls.StatisticCard"
+             x:Name="Root"
+             x:DataType="controls:StatisticCard">
+
+    <Border Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource SubtleOutlineBrush}"
+            BorderThickness="1"
+            CornerRadius="12"
+            Padding="14,12">
+        <StackPanel Orientation="Horizontal"
+                    Spacing="12"
+                    VerticalAlignment="Center">
+            <Border Width="40"
+                    Height="40"
+                    CornerRadius="10"
+                    Background="{Binding #Root.AccentSoft}"
+                    VerticalAlignment="Center">
+                <PathIcon Width="18"
+                          Height="18"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Foreground="{Binding #Root.Accent}"
+                          Data="{Binding #Root.IconData}" />
+            </Border>
+
+            <StackPanel VerticalAlignment="Center" Spacing="2">
+                <TextBlock Text="{Binding #Root.Value}"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource OnSurfaceBrush}" />
+                <TextBlock Text="{Binding #Root.Title}"
+                           FontSize="12"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+
+</UserControl>

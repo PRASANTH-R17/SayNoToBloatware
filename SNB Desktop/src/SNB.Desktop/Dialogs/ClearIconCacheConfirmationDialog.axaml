@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Dialogs.ClearIconCacheConfirmationDialog"
+             x:DataType="vm:ClearIconCacheConfirmationViewModel"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+
+    <Border Width="420"
+            Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource OutlineVariantBrush}"
+            BorderThickness="1"
+            CornerRadius="16"
+            BoxShadow="0 16 48 0 #18000000"
+            Margin="24">
+        <StackPanel Margin="32,28,32,24" Spacing="22">
+
+            <StackPanel Spacing="14" HorizontalAlignment="Center">
+                <PathIcon Width="48"
+                          Height="48"
+                          Foreground="{StaticResource WarningBrush}"
+                          Data="{StaticResource IconWarning}"
+                          HorizontalAlignment="Center" />
+
+                <TextBlock Text="{l:Loc Settings.ClearIconCacheConfirmTitle}"
+                           FontFamily="{StaticResource HeaderFontFamily}"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource OnSurfaceBrush}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Text="{l:Loc Settings.ClearIconCacheConfirmMessage}"
+                           FontSize="13"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           LineHeight="20"
+                           MaxWidth="340" />
+            </StackPanel>
+
+            <TextBlock Text="{Binding ErrorMessage}"
+                       FontSize="13"
+                       Foreground="{StaticResource ErrorBrush}"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="12"
+                        HorizontalAlignment="Right">
+                <Button Classes="Secondary"
+                        MinWidth="100"
+                        MinHeight="40"
+                        Content="{l:Loc Common.Cancel}"
+                        IsEnabled="{Binding !IsBusy}"
+                        Command="{Binding CancelCommand}" />
+                <Button Classes="Danger"
+                        MinWidth="100"
+                        MinHeight="40"
+                        Content="{l:Loc Settings.ClearIconCacheConfirmAction}"
+                        IsEnabled="{Binding !IsBusy}"
+                        Command="{Binding ConfirmCommand}" />
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+
+</UserControl>

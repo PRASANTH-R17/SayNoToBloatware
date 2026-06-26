@@ -1,0 +1,219 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Dialogs.AppDetailsPanel"
+             x:DataType="vm:AppDetailsViewModel"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+
+    <Border Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource OutlineVariantBrush}"
+            BorderThickness="1,0,0,0"
+            BoxShadow="-6 0 20 0 #0C000000">
+        <Grid RowDefinitions="Auto,*">
+
+            <Border Grid.Row="0"
+                    Background="{StaticResource SurfaceContainerLowBrush}"
+                    BorderBrush="{StaticResource OutlineVariantBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="20,16,12,16">
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="App Details"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}"
+                               VerticalAlignment="Center" />
+                    <Button Grid.Column="1"
+                            Width="28"
+                            Height="28"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="6"
+                            Command="{Binding CloseCommand}">
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                  Data="{StaticResource IconClose}" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="20,22,20,28" Spacing="24">
+
+                    <StackPanel Spacing="12">
+                        <Border Width="60"
+                                Height="60"
+                                CornerRadius="16"
+                                ClipToBounds="True"
+                                HorizontalAlignment="Left">
+                            <Panel>
+                                <Image Width="60"
+                                       Height="60"
+                                       Stretch="UniformToFill"
+                                       Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+                                <Image Width="60"
+                                       Height="60"
+                                       Stretch="UniformToFill"
+                                       Source="{Binding App.IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+                            </Panel>
+                        </Border>
+
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="{Binding App.AppName}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource OnSurfaceBrush}"
+                                       TextWrapping="Wrap"
+                                       LineHeight="24" />
+
+                            <TextBlock Text="{Binding App.PackageName}"
+                                       Classes="Code"
+                                       FontSize="12"
+                                       TextWrapping="Wrap" />
+
+                            <controls:CategoryBadge Category="{Binding App.Category}"
+                                                    Compact="False"
+                                                    HorizontalAlignment="Left"
+                                                    Margin="0,4,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Spacing="8">
+                        <TextBlock Classes="Caption"
+                                   Text="ABOUT" />
+                        <TextBlock Text="{Binding App.Description}"
+                                   FontSize="14"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   TextWrapping="Wrap"
+                                   LineHeight="22" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="10">
+                        <TextBlock Classes="Caption"
+                                   Text="PACKAGE INFO" />
+
+                        <Border Background="{StaticResource SurfaceContainerLowBrush}"
+                                CornerRadius="12"
+                                ClipToBounds="True">
+                            <StackPanel Spacing="0">
+
+                                <Border Padding="14,12"
+                                        BorderBrush="{StaticResource SurfaceContainerHighBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <Grid ColumnDefinitions="96,*" ColumnSpacing="12">
+                                        <TextBlock Text="Category"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   MinWidth="0"
+                                                   Text="{Binding App.CategoryDisplayName}"
+                                                   FontSize="13"
+                                                   FontWeight="Medium"
+                                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                                <Border Padding="14,12"
+                                        BorderBrush="{StaticResource SurfaceContainerHighBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <Grid ColumnDefinitions="96,*" ColumnSpacing="12">
+                                        <TextBlock Text="Type"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   MinWidth="0"
+                                                   Text="{Binding App.TypeLabel}"
+                                                   FontSize="13"
+                                                   FontWeight="Medium"
+                                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                                <Border Padding="14,12"
+                                        BorderBrush="{StaticResource SurfaceContainerHighBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <Grid ColumnDefinitions="96,*" ColumnSpacing="12">
+                                        <TextBlock Text="Source"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   MinWidth="0"
+                                                   Text="{Binding App.Source}"
+                                                   Classes="Code"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                                <Border Padding="14,12"
+                                        BorderBrush="{StaticResource SurfaceContainerHighBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <Grid ColumnDefinitions="96,*" ColumnSpacing="12">
+                                        <TextBlock Text="First found"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   MinWidth="0"
+                                                   Text="{Binding App.FirstFound}"
+                                                   FontSize="13"
+                                                   FontWeight="Medium"
+                                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                                <Border Padding="14,12"
+                                        BorderBrush="{StaticResource SurfaceContainerHighBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <Grid ColumnDefinitions="96,*" ColumnSpacing="12">
+                                        <TextBlock Text="Version"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   MinWidth="0"
+                                                   Text="{Binding App.Version}"
+                                                   Classes="Code"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                                <Border Padding="14,12">
+                                    <Grid ColumnDefinitions="96,*" ColumnSpacing="12">
+                                        <TextBlock Text="Size"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1"
+                                                   MinWidth="0"
+                                                   Text="{Binding App.Size}"
+                                                   FontSize="13"
+                                                   FontWeight="Medium"
+                                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+    </Border>
+
+</UserControl>

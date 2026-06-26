@@ -1,0 +1,201 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:SNB.Desktop.Converters"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
+             xmlns:models="clr-namespace:SNB.Desktop.Models"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Dialogs.RemovalProgressDialog"
+             x:DataType="vm:RemovalProgressViewModel"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+
+    <Border Width="480"
+            Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource OutlineVariantBrush}"
+            BorderThickness="1"
+            CornerRadius="16"
+            BoxShadow="0 16 48 0 #18000000"
+            Margin="24">
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <StackPanel Grid.Row="0"
+                        Margin="32,28,32,20"
+                        Spacing="8"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="Removing Applications..."
+                           FontFamily="{StaticResource HeaderFontFamily}"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource OnSurfaceBrush}"
+                           TextAlignment="Center" />
+
+                <TextBlock Text="{l:Loc RemovalProgress.DoNotDisconnect}"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}"
+                           TextAlignment="Center" />
+
+                <StackPanel Spacing="6" Margin="0,12,0,0">
+                    <ProgressBar Minimum="0"
+                                 Maximum="100"
+                                 Value="{Binding ProgressPercent}"
+                                 Height="8"
+                                 CornerRadius="4"
+                                 Foreground="{StaticResource PrimaryBrush}"
+                                 Background="{StaticResource SurfaceContainerHighBrush}" />
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="{Binding ProgressSummary}"
+                                   FontSize="13"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding ProgressPercentLabel}"
+                                   FontSize="13"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}" />
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1"
+                          MaxHeight="340"
+                          VerticalScrollBarVisibility="Auto"
+                          Margin="32,0,32,0">
+                <ItemsControl ItemsSource="{Binding Results}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:RemovalResultModel">
+                            <Border BorderBrush="{StaticResource OutlineVariantBrush}"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="0,12,18,12">
+                                <Grid ColumnDefinitions="Auto,*,Auto"
+                                      ColumnSpacing="12">
+                                    <Border Grid.Column="0"
+                                            Width="36"
+                                            Height="36"
+                                            CornerRadius="8"
+                                            ClipToBounds="True"
+                                            VerticalAlignment="Center">
+                                        <Panel>
+                                            <Image Width="36"
+                                                   Height="36"
+                                                   Stretch="UniformToFill"
+                                                   IsVisible="{Binding !App.HasIcon}"
+                                                   Source="{Binding Source='avares://SNB.Desktop/Assets/app-icon-fallback.png', Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+                                            <Image Width="36"
+                                                   Height="36"
+                                                   Stretch="UniformToFill"
+                                                   IsVisible="{Binding App.HasIcon}"
+                                                   Source="{Binding App.IconPath, Converter={x:Static conv:BitmapAssetValueConverter.Instance}}" />
+                                        </Panel>
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1"
+                                                Spacing="2"
+                                                VerticalAlignment="Center"
+                                                MinWidth="0">
+                                        <TextBlock Text="{Binding App.AppName}"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding App.PackageName}"
+                                                   Classes="Code"
+                                                   FontSize="11"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2"
+                                                Orientation="Horizontal"
+                                                Spacing="6"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Right">
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Removed}}">
+                                            <PathIcon Width="16"
+                                                      Height="16"
+                                                      Foreground="{StaticResource SuccessBrush}"
+                                                      Data="{StaticResource IconCheck}" />
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       Foreground="{StaticResource SuccessBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Disabled}}">
+                                            <PathIcon Width="16"
+                                                      Height="16"
+                                                      Foreground="{StaticResource WarningBrush}"
+                                                      Data="{StaticResource IconBlock}" />
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       Foreground="{StaticResource WarningBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Removing}}">
+                                            <controls:LoadingSpinner SpinnerForeground="{StaticResource PrimaryBrush}" />
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       Foreground="{StaticResource PrimaryBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Pending}}">
+                                            <PathIcon Width="16"
+                                                      Height="16"
+                                                      Foreground="{StaticResource TextMutedBrush}"
+                                                      Data="{StaticResource IconCircleOutline}" />
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="13"
+                                                       Foreground="{StaticResource TextMutedBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding Status, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter={x:Static models:RemovalStatus.Failed}}">
+                                            <PathIcon Width="16"
+                                                      Height="16"
+                                                      Foreground="{StaticResource ErrorBrush}"
+                                                      Data="{StaticResource IconWarning}" />
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       Foreground="{StaticResource ErrorBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource OutlineVariantBrush}"
+                    BorderThickness="0,1,0,0"
+                    Padding="32,16">
+                <Button Classes="Secondary"
+                        MinWidth="120"
+                        MinHeight="40"
+                        Content="Cancel"
+                        HorizontalAlignment="Center"
+                        Command="{Binding CancelCommand}" />
+            </Border>
+
+        </Grid>
+    </Border>
+
+</UserControl>

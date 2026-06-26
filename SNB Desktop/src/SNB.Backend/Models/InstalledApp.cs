@@ -1,0 +1,16 @@
+namespace SNB.Backend.Models;
+
+public sealed class InstalledApp
+{
+    public required string PackageName { get; init; }
+    public string AppName { get; set; } = string.Empty;
+    public bool IsBloatware { get; init; }
+    public RemovalType? BloatwareRemovalType { get; init; }
+    public string? BloatwareDescription { get; init; }
+    public string? IconPath { get; set; }
+
+    public string Version { get; set; } = string.Empty;
+    public long SizeBytes { get; set; }
+    public bool IsSystem { get; set; }
+    public IReadOnlyList<string> Permissions { get; set; } = new List<string>();
+}

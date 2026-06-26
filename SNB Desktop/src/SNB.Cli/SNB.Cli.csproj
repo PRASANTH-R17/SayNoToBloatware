@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_PublishProfileName>$([System.IO.Path]::GetFileNameWithoutExtension('$(PublishProfile)'))</_PublishProfileName>
+
+    <_AdbAssetRuntimeIdentifier
+      Condition="'$(_PublishProfileName)' != '' and $([System.String]::Copy('$(_PublishProfileName)').Equals('Windows', System.StringComparison.OrdinalIgnoreCase))">win</_AdbAssetRuntimeIdentifier>
+    <_AdbAssetRuntimeIdentifier
+      Condition="'$(_PublishProfileName)' != '' and $([System.String]::Copy('$(_PublishProfileName)').Equals('Linux', System.StringComparison.OrdinalIgnoreCase))">linux</_AdbAssetRuntimeIdentifier>
+
+    <_AdbAssetRuntimeIdentifier
+      Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and '$(RuntimeIdentifier)' != '' and $([System.String]::Copy('$(RuntimeIdentifier)').StartsWith('win', System.StringComparison.OrdinalIgnoreCase))">win</_AdbAssetRuntimeIdentifier>
+    <_AdbAssetRuntimeIdentifier
+      Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and '$(RuntimeIdentifier)' != '' and $([System.String]::Copy('$(RuntimeIdentifier)').StartsWith('linux', System.StringComparison.OrdinalIgnoreCase))">linux</_AdbAssetRuntimeIdentifier>
+
+    <_AdbAssetRuntimeIdentifier Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">win</_AdbAssetRuntimeIdentifier>
+    <_AdbAssetRuntimeIdentifier Condition="'$(_AdbAssetRuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('Linux'))">linux</_AdbAssetRuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SNB.Backend\SNB.Backend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.9" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([System.String]::Copy('$(_AdbAssetRuntimeIdentifier)').StartsWith('win'))">
+    <Content Include="..\..\..\Assets\ADB\Windows\adb.exe" Link="adb.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinApi.dll" Link="AdbWinApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinUsbApi.dll" Link="AdbWinUsbApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([System.String]::Copy('$(_AdbAssetRuntimeIdentifier)').StartsWith('linux'))">
+    <Content Include="..\..\..\Assets\ADB\Linux\adb" Link="adb" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\Assets\Bridge\snb_bridge.apk" Link="Bridge\snb_bridge.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\Assets\Database\snb.db" Link="Default\snb.db" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\Assets\Images\*.png" Link="Assets\Images\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="ChmodAdb" AfterTargets="Publish" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <Exec Command="chmod +x &quot;$(PublishDir)adb&quot;" />
+  </Target>
+
+</Project>

@@ -1,0 +1,136 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SNB.Desktop.Controls"
+             xmlns:l="clr-namespace:SNB.Desktop.Markup"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Views.DeviceSelectionView"
+             x:DataType="vm:DeviceSelectionViewModel">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollViewer Grid.Row="0"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="12,8,12,12"
+                        Spacing="16"
+                        MaxWidth="1120"
+                        HorizontalAlignment="Stretch">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                    <StackPanel Spacing="4">
+                        <TextBlock FontSize="28"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}"
+                                   Text="{l:Loc Device.Title}" />
+                        <TextBlock FontSize="14"
+                                   Foreground="{StaticResource OnSurfaceVariantBrush}"
+                                   Text="{l:Loc Device.Subtitle}" />
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Classes="Secondary"
+                            Padding="14,8"
+                            MinHeight="36"
+                            VerticalAlignment="Top"
+                            Command="{Binding RefreshDevicesCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon Width="14"
+                                      Height="14"
+                                      Foreground="{StaticResource PrimaryBrush}"
+                                      Data="{StaticResource IconSyncAlt}" />
+                            <TextBlock Text="{l:Loc Device.Refresh}"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource PrimaryBrush}" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Border IsVisible="{Binding HasError}"
+                        Background="#FFF1F2"
+                        BorderBrush="#FB7185"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="16,12">
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               TextWrapping="Wrap"
+                               FontSize="13"
+                               Foreground="#B91C1C" />
+                </Border>
+
+                <TextBlock IsVisible="{Binding HasNoDevices}"
+                           Text="{l:Loc Device.NoDevices}"
+                           TextWrapping="Wrap"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+
+                <ItemsControl ItemsSource="{Binding Devices}"
+                              HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="14" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:DeviceCardControl
+                                Device="{Binding}"
+                                SelectCommand="{Binding $parent[ItemsControl].((vm:DeviceSelectionViewModel)DataContext).SelectDeviceCommand}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="1"
+                Classes="TonalPanel"
+                Margin="12,0,12,12"
+                Padding="18,16"
+                CornerRadius="18"
+                HorizontalAlignment="Stretch"
+                MaxWidth="1120">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Border Width="28"
+                        Height="28"
+                        CornerRadius="14"
+                        Background="{StaticResource PrimarySoftBrush}"
+                        VerticalAlignment="Top">
+                    <PathIcon Width="16"
+                              Height="16"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Foreground="{StaticResource PrimaryBrush}"
+                              Data="{StaticResource IconInfo}" />
+                </Border>
+
+                <StackPanel Grid.Column="1" Spacing="4">
+                    <TextBlock FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}"
+                               Text="{l:Loc Device.CantSee}" />
+                    <TextBlock FontSize="13"
+                               Foreground="{StaticResource OnSurfaceVariantBrush}"
+                               TextWrapping="Wrap"
+                               Text="{l:Loc Device.EnsureHint}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Busy overlay: bootstrap, detection, and device preparation -->
+        <Border Grid.Row="0"
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsBusy}"
+                Background="#B3FFFFFF">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="14">
+                <controls:LoadingSpinner Width="44"
+                                         Height="44"
+                                         HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding StatusMessage}"
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SNB.Backend/SNB.Backend.csproj" />
+    <Project Path="src/SNB.Cli/SNB.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SNB.Backend.Tests/SNB.Backend.Tests.csproj" />
+  </Folder>
+</Solution>

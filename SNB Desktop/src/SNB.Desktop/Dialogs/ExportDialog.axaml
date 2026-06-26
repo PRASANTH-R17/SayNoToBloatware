@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SNB.Desktop.ViewModels"
+             x:Class="SNB.Desktop.Dialogs.ExportDialog"
+             x:DataType="vm:ExportViewModel"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+
+    <Border Width="420"
+            Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource OutlineVariantBrush}"
+            BorderThickness="1"
+            CornerRadius="16"
+            BoxShadow="0 16 48 0 #18000000"
+            Margin="24">
+        <StackPanel Margin="32,28,32,24" Spacing="22">
+
+            <StackPanel Spacing="6">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon Width="22"
+                              Height="22"
+                              Foreground="{StaticResource PrimaryBrush}"
+                              Data="{StaticResource IconFileExport}"
+                              VerticalAlignment="Center" />
+                    <TextBlock Text="Export App List"
+                               FontFamily="{StaticResource HeaderFontFamily}"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource OnSurfaceBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="{Binding AppCount, StringFormat='{}{0} apps will be exported.'}"
+                           FontSize="13"
+                           Foreground="{StaticResource OnSurfaceVariantBrush}" />
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Format"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource OnSurfaceBrush}" />
+
+                <RadioButton GroupName="ExportFormat"
+                             Content="CSV"
+                             FontSize="14"
+                             Foreground="{StaticResource OnSurfaceBrush}"
+                             IsChecked="{Binding IsCsv, Mode=TwoWay}" />
+
+                <RadioButton GroupName="ExportFormat"
+                             Content="JSON"
+                             FontSize="14"
+                             Foreground="{StaticResource OnSurfaceBrush}"
+                             IsChecked="{Binding IsJson, Mode=TwoWay}" />
+            </StackPanel>
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       FontSize="13"
+                       Foreground="{StaticResource ErrorBrush}"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="12"
+                        HorizontalAlignment="Right">
+                <Button Classes="Secondary"
+                        MinWidth="100"
+                        MinHeight="40"
+                        Content="Cancel"
+                        IsEnabled="{Binding !IsBusy}"
+                        Command="{Binding CancelCommand}" />
+                <Button Classes="Primary"
+                        MinWidth="100"
+                        MinHeight="40"
+                        Content="Export"
+                        IsEnabled="{Binding !IsBusy}"
+                        Command="{Binding ExportCommand}" />
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+
+</UserControl>

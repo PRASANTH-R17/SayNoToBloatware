@@ -1,0 +1,94 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Typography style classes. Apply via Classes on a TextBlock, e.g.
+            <TextBlock Classes="PageTitle" Text="Select a Device" />
+        Default body font follows the System Management Interface design language.
+    -->
+
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style Selector="TextBlock.DisplayTitle">
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="42" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.Eyebrow">
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+    </Style>
+
+    <!-- Page title ~24px semibold -->
+    <Style Selector="TextBlock.PageTitle">
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- Section header ~18px semibold -->
+    <Style Selector="TextBlock.SectionHeader">
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- Device name ~28px bold (for device cards) -->
+    <Style Selector="TextBlock.DeviceName">
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- Card / item title ~15px medium -->
+    <Style Selector="TextBlock.Subtitle">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- Body ~14px -->
+    <Style Selector="TextBlock.Body">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <!-- Muted / secondary ~13px -->
+    <Style Selector="TextBlock.Muted">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+    </Style>
+
+    <!-- Caption ~12px uppercase label -->
+    <Style Selector="TextBlock.Caption">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.Metric">
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.Code">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
+    </Style>
+
+</Styles>

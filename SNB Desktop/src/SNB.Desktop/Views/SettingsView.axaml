@@ -90,7 +90,7 @@
                                       Foreground="{StaticResource PrimaryBrush}"
                                       Data="{StaticResource IconAutorenew}" />
                             <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
-                                <TextBlock Text="Auto Update Database"
+                                <TextBlock Text="{l:Loc Settings.AutoUpdate}"
                                            FontSize="14"
                                            FontWeight="SemiBold"
                                            Foreground="{StaticResource OnSurfaceBrush}" />

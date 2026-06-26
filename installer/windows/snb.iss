@@ -65,6 +65,22 @@ Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: deskto
 [Run]
 Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: nowait postinstall skipifsilent
 
-[UninstallDelete]
-; Remove anything the app generates next to itself (cache, extracted single-file bundles, etc.)
-Type: filesandordirs; Name: "{app}\Cache"
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  LocalDataDir: String;
+  RoamingDataDir: String;
+begin
+  if CurUninstallStep <> usPostUninstall then
+    Exit;
+
+  { Icon cache, snb.db (%LocalAppData%), and preferences (%AppData%) — standard install only. }
+  { Portable zip builds have no uninstaller and keep user data when the folder is deleted. }
+  LocalDataDir := ExpandConstant('{localappdata}\SayNoToBloatware');
+  if DirExists(LocalDataDir) then
+    DelTree(LocalDataDir, True, True, True);
+
+  RoamingDataDir := ExpandConstant('{userappdata}\SayNoToBloatware');
+  if DirExists(RoamingDataDir) then
+    DelTree(RoamingDataDir, True, True, True);
+end;

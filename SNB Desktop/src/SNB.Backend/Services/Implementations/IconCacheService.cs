@@ -51,4 +51,23 @@ public sealed class IconCacheService : IIconCacheService
         _cachedPackages.Add(packageName);
         return iconPath;
     }
+
+    public async Task<int> ClearAsync(CancellationToken cancellationToken = default)
+    {
+        var removedCount = 0;
+
+        if (Directory.Exists(IconsDirectory))
+        {
+            foreach (var iconPath in Directory.EnumerateFiles(IconsDirectory, "*.png"))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                File.Delete(iconPath);
+                removedCount++;
+            }
+        }
+
+        await _appIconRepository.DeleteAllAsync(cancellationToken);
+        _cachedPackages.Clear();
+        return removedCount;
+    }
 }

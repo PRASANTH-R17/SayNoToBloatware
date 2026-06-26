@@ -126,14 +126,21 @@ Exported fields include app name, package name, type, category, size, version, a
 
 ## 5. Settings
 
-- **Theme** — **Light** or **Dark**. The choice applies instantly and is remembered across restarts.
-  (Default is Light.)
-- **Language** — **English** or **தமிழ் (Easy)** (Tamil). Also applied live and remembered.
-- **Database** — shows the bloatware database version and last sync time.
-- **Icon cache** — shows where cached icons are stored.
+Settings are grouped into **Database**, **Cache**, and **Other**:
+
+- **Database**
+  - **Database Version** — the date of the bundled or last-synced bloatware database.
+  - **Last Sync** — when the bloatware lists (`oem.json`, `misc.json`) were last downloaded.
+  - **Auto Update Database** — when enabled, SNB syncs those lists in the background on startup.
+- **Cache**
+  - **Icon Cache Location** — path where fetched app icons are stored on disk.
+  - **Clear Icon Cache** — removes cached icons (with a confirmation dialog).
+- **Other**
+  - **Theme** — **Light** or **Dark**. The choice applies instantly and is remembered across restarts.
+    (Default is Light.)
+  - **Language** — **English** or **தமிழ் (Easy)** (Tamil). Also applied live and remembered.
 
 ## 6. About
 
-Shows the app version, build, developer, current language, license, and quick links (Website,
-GitHub, Report an Issue, Documentation, License). The **Documentation** link is intended to open this
-documentation set.
+Shows the app version, developer, license, and quick links (Website, GitHub, Report an Issue,
+Documentation, License). The **Documentation** link opens this documentation set.

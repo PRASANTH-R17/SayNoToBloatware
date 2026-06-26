@@ -181,6 +181,39 @@ public class IconCacheServiceTests
         }
     }
 
+    [Fact]
+    public async Task ClearAsync_RemovesFilesAndInMemoryState()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), "snb-test-" + Guid.NewGuid());
+        Directory.CreateDirectory(tempDir);
+
+        try
+        {
+            var pathProvider = new TestPathProvider(tempDir);
+            var repository = new InMemoryAppIconRepository();
+            var service = new IconCacheService(pathProvider, repository);
+            await service.LoadAsync();
+
+            var png = new byte[] { 0x89, 0x50, 0x4E, 0x47 };
+            await service.SaveIconAsync("com.test.app", png);
+            await service.SaveIconAsync("com.other.app", png);
+
+            Assert.Equal(2, service.Count);
+
+            var removed = await service.ClearAsync();
+
+            Assert.Equal(2, removed);
+            Assert.Equal(0, service.Count);
+            Assert.Empty(Directory.GetFiles(service.IconsDirectory, "*.png"));
+            Assert.Empty(await repository.GetAllPackageNamesAsync());
+            Assert.Single(service.GetMissingPackages(["com.test.app"]));
+        }
+        finally
+        {
+            Directory.Delete(tempDir, recursive: true);
+        }
+    }
+
     private sealed class TestPathProvider(string baseDirectory) : IPathProvider
     {
         public string BaseDirectory { get; } = baseDirectory;
@@ -200,6 +233,11 @@ public class IconCacheServiceTests
         public Task<IReadOnlyList<string>> GetAllPackageNamesAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult<IReadOnlyList<string>>(_packages.ToList());
+        }
+        public Task DeleteAllAsync(CancellationToken cancellationToken = default)
+        {
+            _packages.Clear();
+            return Task.CompletedTask;
         }
     }
 }

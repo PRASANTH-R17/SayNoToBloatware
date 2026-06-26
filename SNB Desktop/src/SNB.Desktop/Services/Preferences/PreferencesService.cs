@@ -13,6 +13,8 @@ public sealed class AppPreferences
     public string Theme { get; set; } = "Light";
 
     public AppLanguage Language { get; set; } = AppLanguage.English;
+
+    public bool AutoUpdateDatabase { get; set; } = true;
 }
 
 /// <summary>
@@ -77,6 +79,12 @@ public sealed class PreferencesService
     public void SetLanguage(AppLanguage language)
     {
         Current.Language = language;
+        Save();
+    }
+
+    public void SetAutoUpdateDatabase(bool enabled)
+    {
+        Current.AutoUpdateDatabase = enabled;
         Save();
     }
 

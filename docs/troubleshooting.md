@@ -22,6 +22,43 @@ Checklist:
 
 Still nothing? Confirm ADB itself sees the device — see [ADB sanity check](#adb-sanity-check) below.
 
+### Linux: "insufficient permissions" / missing udev rules
+
+If you see an error like *insufficient permissions for device: missing udev rules? user is in the
+plugdev group*, the OS is not granting USB access to your phone.
+
+**If you installed a recent `.deb` or `.rpm` package:** it ships udev rules automatically. After
+installing, unplug and replug the phone. If it still fails, reload udev and restart the adb server:
+
+```bash
+sudo udevadm control --reload-rules
+sudo udevadm trigger --subsystem-match=usb --action=add
+/opt/say-no-to-bloatware/adb kill-server
+```
+
+**If you use the AppImage or an older package install:** install rules manually. The repo ships a
+multi-vendor rules file at `installer/linux/51-android-usb.rules` (same file bundled in `.deb`/`.rpm`
+packages as `70-say-no-to-bloatware-android.rules`):
+
+```bash
+sudo cp installer/linux/51-android-usb.rules /etc/udev/rules.d/70-say-no-to-bloatware-android.rules
+sudo chmod a+r /etc/udev/rules.d/70-say-no-to-bloatware-android.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger --subsystem-match=usb --action=add
+```
+
+If your phone's vendor ID is not covered, add a line for it (from `lsusb`, e.g. `ID 2d95:600b` →
+vendor `2d95`) to that file, then reload udev as above.
+
+Ensure your user is in the `plugdev` group, then **log out and log back in** (or reboot) so the
+group membership applies:
+
+```bash
+sudo usermod -aG plugdev "$USER"
+```
+
+Unplug/replug the USB cable and try again.
+
 ## Device shows as "unauthorized"
 
 This means USB debugging is on but the computer isn't trusted yet. Unlock the phone, watch for the

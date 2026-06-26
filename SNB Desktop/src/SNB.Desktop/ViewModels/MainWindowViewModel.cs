@@ -68,6 +68,35 @@ public partial class MainWindowViewModel : ObservableObject
     /// <summary>True when any overlay (dialog or panel) is showing, so the dim layer can hit-test.</summary>
     public bool IsOverlayVisible => IsDialogOpen || IsPanelOpen;
 
+    /// <summary>Transient toast message shown at the bottom of the shell.</summary>
+    [ObservableProperty]
+    private string _toastMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _isToastVisible;
+
+    [ObservableProperty]
+    private ToastKind _toastKind = ToastKind.Success;
+
+    public bool IsToastSuccess => ToastKind == ToastKind.Success;
+
+    public bool IsSuccessToastVisible => IsToastVisible && IsToastSuccess;
+
+    public bool IsErrorToastVisible => IsToastVisible && !IsToastSuccess;
+
+    partial void OnToastKindChanged(ToastKind value)
+    {
+        OnPropertyChanged(nameof(IsToastSuccess));
+        OnPropertyChanged(nameof(IsSuccessToastVisible));
+        OnPropertyChanged(nameof(IsErrorToastVisible));
+    }
+
+    partial void OnIsToastVisibleChanged(bool value)
+    {
+        OnPropertyChanged(nameof(IsSuccessToastVisible));
+        OnPropertyChanged(nameof(IsErrorToastVisible));
+    }
+
     partial void OnCurrentDialogChanged(object? value) => OnPropertyChanged(nameof(IsOverlayVisible));
 
     partial void OnCurrentPanelChanged(object? value) => OnPropertyChanged(nameof(IsOverlayVisible));

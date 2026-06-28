@@ -41,7 +41,7 @@
                                Width="72"
                                Height="72"
                                VerticalAlignment="Top"
-                               Source="/Assets/logo.png" />
+                               Source="/Assets/brand-logo.png" />
 
                         <StackPanel Grid.Column="1"
                                     MinWidth="0"

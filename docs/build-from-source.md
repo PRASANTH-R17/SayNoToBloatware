@@ -7,7 +7,7 @@ How to build, run, test, and publish SNB yourself.
 | Tool | Needed for | Notes |
 |------|------------|-------|
 | **.NET 10 SDK** | Desktop + CLI + backend | All projects target `net10.0`. There is no `global.json`, so the latest .NET 10 SDK is used. |
-| **Flutter SDK** (Dart `^3.11.5`) | Building the bridge APK | Only needed if you want to rebuild `snb_bridge.apk`; a prebuilt APK already ships in the repo. |
+| **Flutter SDK** (Dart `^3.11.5`) | Building the bridge APK | Required for local builds; CI builds it automatically for releases. Output goes to `Assets/Bridge/snb_bridge.apk`. |
 | **Git** | Cloning | — |
 
 You do **not** need to install Android platform-tools (ADB) separately — the desktop app bundles its

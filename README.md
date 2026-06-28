@@ -42,8 +42,9 @@ USB debugging enabled, and scan. See [Getting Started](docs/getting-started.md).
 # Desktop client
 dotnet run --project "SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj"
 
-# Bridge app (optional — a prebuilt APK already ships in Assets/Bridge/)
+# Bridge app (build locally, or let CI build it for releases — see docs/releasing.md)
 cd "SNB Bridge"; flutter pub get; flutter build apk --release
+cp build/app/outputs/flutter-apk/app-release.apk ../Assets/Bridge/snb_bridge.apk
 ```
 
 See [Build from Source](docs/build-from-source.md) for the full developer setup.

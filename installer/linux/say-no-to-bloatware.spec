@@ -57,7 +57,7 @@ chmod 644 %{buildroot}/lib/udev/rules.d/70-say-no-to-bloatware-android.rules
 /lib/udev/rules.d/70-say-no-to-bloatware-android.rules
 
 %post
-%include deb-postinst.sh
+%include %{_specdir}/deb-postinst.sh
 
 %postun
-%include deb-postrm.sh
+%include %{_specdir}/deb-postrm.sh

@@ -25,6 +25,7 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
+- The `build-bridge` job builds the Flutter bridge APK and supplies it to both platform jobs.
 - The `windows` job (windows runner) produces the portable zip, the single-file exe, and the Inno Setup installer.
 - The `linux` job (ubuntu runner) produces the AppImage, the `.deb`, and the `.rpm`.
 - On a tag push, both jobs upload their files to the Release for tag `v1.0.0`.

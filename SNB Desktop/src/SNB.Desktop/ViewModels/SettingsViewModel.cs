@@ -6,8 +6,10 @@ using Avalonia;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using SNB.Backend.DependencyInjection;
 using SNB.Backend.Services.Abstractions;
+using SNB.Desktop.Services;
 using SNB.Desktop.Services.Localization;
 using SNB.Desktop.Services.Preferences;
 
@@ -31,11 +33,19 @@ public partial class SettingsViewModel : ObservableObject
 
     private readonly ISourceRepository _sourceRepository;
     private readonly IIconCacheService _iconCacheService;
+    private readonly INavigationService _navigation;
+    private readonly IServiceProvider _services;
 
-    public SettingsViewModel(ISourceRepository sourceRepository, IIconCacheService iconCacheService)
+    public SettingsViewModel(
+        ISourceRepository sourceRepository,
+        IIconCacheService iconCacheService,
+        INavigationService navigation,
+        IServiceProvider services)
     {
         _sourceRepository = sourceRepository;
         _iconCacheService = iconCacheService;
+        _navigation = navigation;
+        _services = services;
         _iconCacheLocation = _iconCacheService.IconsDirectory;
         _language = LocalizationService.Instance.CurrentLanguage == AppLanguage.Tamil
             ? TamilLanguageLabel
@@ -43,6 +53,7 @@ public partial class SettingsViewModel : ObservableObject
         _theme = string.Equals(PreferencesService.Instance.Current.Theme, DarkThemeLabel, StringComparison.OrdinalIgnoreCase)
             ? DarkThemeLabel
             : LightThemeLabel;
+        _autoUpdateDatabase = PreferencesService.Instance.Current.AutoUpdateDatabase;
         _ = LoadAsync();
     }
 
@@ -94,10 +105,16 @@ public partial class SettingsViewModel : ObservableObject
         PreferencesService.Instance.SetLanguage(language);
     }
 
+    partial void OnAutoUpdateDatabaseChanged(bool value)
+    {
+        PreferencesService.Instance.SetAutoUpdateDatabase(value);
+    }
+
     [RelayCommand]
     private void ClearCache()
     {
-        // TODO: wire to icon cache clearing when exposed by the backend.
+        var vm = _services.GetRequiredService<ClearIconCacheConfirmationViewModel>();
+        _navigation.ShowDialog(vm);
     }
 
     private async Task LoadAsync()

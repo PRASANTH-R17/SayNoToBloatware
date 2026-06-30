@@ -2,8 +2,8 @@ name: Release
 
 # Builds all distributable artifacts and attaches them to a GitHub Release.
 #
-#   Windows: portable .zip (single-file exe + assets) + Inno Setup installer (.exe)
-#   Linux:   AppImage (portable) + .deb (installer)
+#   Windows: portable .zip (folder) + single-file .exe + Inno Setup installer (.exe)
+#   Linux:   AppImage (portable) + .deb (installer) + .rpm (installer)
 #
 # Trigger by pushing a version tag, e.g.:
 #   git tag v1.0.0 && git push origin v1.0.0
@@ -27,10 +27,53 @@ env:
   DESKTOP_CSPROJ: SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj
 
 jobs:
+  build-bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Accept Android licenses and precache tooling
+        run: |
+          yes | flutter doctor --android-licenses || true
+          flutter precache --android
+
+      - name: Build bridge APK
+        run: |
+          cd "SNB Bridge"
+          flutter pub get
+          flutter build apk --release
+          mkdir -p "../Assets/Bridge"
+          cp build/app/outputs/flutter-apk/app-release.apk ../Assets/Bridge/snb_bridge.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bridge-apk
+          path: Assets/Bridge/snb_bridge.apk
+
   windows:
+    needs: build-bridge
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: bridge-apk
+          path: Assets/Bridge
+
+      - name: Verify bridge APK
+        shell: bash
+        run: test -f Assets/Bridge/snb_bridge.apk
 
       - uses: actions/setup-dotnet@v4
         with:
@@ -46,8 +89,11 @@ jobs:
             echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish portable (single-file, self-contained)
+      - name: Publish portable (folder, self-contained)
         run: dotnet publish "$env:DESKTOP_CSPROJ" -p:PublishProfile=WindowsPortable -p:Version=${{ steps.ver.outputs.version }}
+
+      - name: Publish single-file (self-contained)
+        run: dotnet publish "$env:DESKTOP_CSPROJ" -p:PublishProfile=WindowsSingleFile -p:Version=${{ steps.ver.outputs.version }}
 
       - name: Package portable zip
         shell: pwsh
@@ -55,6 +101,12 @@ jobs:
           New-Item -ItemType Directory -Force -Path dist | Out-Null
           Compress-Archive -Path "SNB Desktop/publish/desktop/win-portable/*" `
             -DestinationPath "dist/SNB-Portable-win-x64-${{ steps.ver.outputs.version }}.zip" -Force
+
+      - name: Package single-file exe
+        shell: pwsh
+        run: |
+          Copy-Item "SNB Desktop/publish/desktop/win-single/SNB.Desktop.exe" `
+            "dist/SNB-SingleFile-win-x64-${{ steps.ver.outputs.version }}.exe"
 
       - name: Build installer (Inno Setup)
         shell: pwsh
@@ -78,11 +130,21 @@ jobs:
           files: |
             dist/SNB-Portable-win-x64-${{ steps.ver.outputs.version }}.zip
             dist/SNB-Setup-${{ steps.ver.outputs.version }}.exe
+            dist/SNB-SingleFile-win-x64-${{ steps.ver.outputs.version }}.exe
 
   linux:
+    needs: build-bridge
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: bridge-apk
+          path: Assets/Bridge
+
+      - name: Verify bridge APK
+        run: test -f Assets/Bridge/snb_bridge.apk
 
       - uses: actions/setup-dotnet@v4
         with:
@@ -100,11 +162,15 @@ jobs:
       - name: Publish (self-contained)
         run: dotnet publish "$DESKTOP_CSPROJ" -p:PublishProfile=Linux -p:Version=${{ steps.ver.outputs.version }}
 
-      - name: Build AppImage + .deb
+      - name: Install RPM tooling
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - name: Build AppImage + .deb + .rpm
         run: |
-          chmod +x installer/linux/build-appimage.sh installer/linux/build-deb.sh
+          chmod +x installer/linux/build-appimage.sh installer/linux/build-deb.sh installer/linux/build-rpm.sh
           bash installer/linux/build-appimage.sh "${{ steps.ver.outputs.version }}" "SNB Desktop/publish/desktop/linux" dist
           bash installer/linux/build-deb.sh "${{ steps.ver.outputs.version }}" "SNB Desktop/publish/desktop/linux" dist
+          bash installer/linux/build-rpm.sh "${{ steps.ver.outputs.version }}" "SNB Desktop/publish/desktop/linux" dist
 
       - uses: actions/upload-artifact@v4
         with:
@@ -118,3 +184,4 @@ jobs:
           files: |
             dist/SNB-${{ steps.ver.outputs.version }}-x86_64.AppImage
             dist/say-no-to-bloatware_${{ steps.ver.outputs.version }}_amd64.deb
+            dist/say-no-to-bloatware-${{ steps.ver.outputs.version }}-1.x86_64.rpm

@@ -1,9 +1,9 @@
 # SNB Bridge
 
-SNB Bridge is the Android app for the **Say No to Bloatware** debloater ecosystem. It runs an HTTP server on the device and exposes installed-app data to a Windows client over ADB port forwarding.
+SNB Bridge is the Android app for the **Say No to Bloatware** debloater ecosystem. It runs an HTTP server on the device and exposes installed-app data to the desktop client over ADB port forwarding.
 
 **Default port:** `5000`  
-**Base URL (from Windows):** `http://127.0.0.1:5000`
+**Base URL (from your PC):** `http://127.0.0.1:5000`
 
 ---
 
@@ -51,7 +51,10 @@ Endpoints that return app data use this JSON object shape.
   "packageName": "com.google.android.youtube",
   "label": "YouTube",
   "isSystem": false,
-  "enabled": true
+  "enabled": true,
+  "versionName": "19.47.39",
+  "sizeBytes": 45678901,
+  "permissions": ["android.permission.INTERNET"]
 }
 ```
 
@@ -73,7 +76,10 @@ Endpoints that return app data use this JSON object shape.
 | `label` | string | Human-readable app name |
 | `isSystem` | boolean | `true` if a system app |
 | `enabled` | boolean | `true` if the app is enabled |
-| `iconBase64` | string \| null | Full-resolution PNG, Base64-encoded (`NO_WRAP`). `null` if the icon cannot be loaded |
+| `versionName` | string | App version name from `PackageManager` (empty string if unavailable) |
+| `sizeBytes` | number | Combined APK size in bytes |
+| `permissions` | string[] | Requested permissions declared by the app |
+| `iconBase64` | string \| null | Full-resolution PNG, Base64-encoded (`NO_WRAP`). `null` if the icon cannot be loaded. Present on `/apps/full` and `/apps/query` only. |
 
 ### Decoding icons
 
@@ -274,28 +280,30 @@ Setting up `adb forward` alone does not change the status. Send a request (e.g. 
 
 ## Running the App
 
-```powershell
-cd "C:\Users\Prasanth\Documents\Say No to Bloatware\SNB Bridge"
+From the repo root:
+
+```bash
+cd "SNB Bridge"
 flutter pub get
 flutter run
 ```
 
 Install an existing debug build:
 
-```powershell
+```bash
 flutter build apk --debug
-adb install build\app\outputs\flutter-apk\app-debug.apk
+adb install build/app/outputs/flutter-apk/app-debug.apk
 ```
 
 ---
 
 ## Testing
 
-```powershell
+```bash
 flutter test
 ```
 
-Export icons from a saved `/apps/full` or `/apps/query` JSON file:
+Export icons from a saved `/apps/full` or `/apps/query` JSON file (PowerShell):
 
 ```powershell
 .\scripts\Export-AppIcons.ps1

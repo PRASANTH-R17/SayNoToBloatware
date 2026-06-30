@@ -54,19 +54,19 @@
 
   <!-- Runtime assets consumed by SNB.Backend (resolved relative to AppContext.BaseDirectory). -->
   <ItemGroup Condition="$([System.String]::Copy('$(_AdbAssetRuntimeIdentifier)').StartsWith('win'))">
-    <Content Include="..\..\..\Assets\ADB\Windows\adb.exe" Link="adb.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinApi.dll" Link="AdbWinApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinUsbApi.dll" Link="AdbWinUsbApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\ADB\Windows\adb.exe" Link="adb.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
+    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinApi.dll" Link="AdbWinApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
+    <Content Include="..\..\..\Assets\ADB\Windows\AdbWinUsbApi.dll" Link="AdbWinUsbApi.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
   </ItemGroup>
 
   <ItemGroup Condition="$([System.String]::Copy('$(_AdbAssetRuntimeIdentifier)').StartsWith('linux'))">
-    <Content Include="..\..\..\Assets\ADB\Linux\adb" Link="adb" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\ADB\Linux\adb" Link="adb" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\Assets\Bridge\snb_bridge.apk" Link="Bridge\snb_bridge.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\Assets\Database\snb.db" Link="Default\snb.db" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\Assets\Images\*.png" Link="Assets\Images\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\Assets\Bridge\snb_bridge.apk" Link="Bridge\snb_bridge.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
+    <Content Include="..\..\..\Assets\Database\snb.db" Link="Default\snb.db" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
+    <Content Include="..\..\..\Assets\Images\*.png" Link="Assets\Images\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="false" />
   </ItemGroup>
 
   <Target Name="ChmodAdb" AfterTargets="Publish" Condition="$([MSBuild]::IsOSPlatform('Linux'))">

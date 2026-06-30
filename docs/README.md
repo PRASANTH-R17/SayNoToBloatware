@@ -31,7 +31,7 @@ through ADB — no root required.
 | [User Guide](user-guide.md) | Users | Full walkthrough: device selection, scanning, removal, export, settings. |
 | [Architecture](architecture.md) | Developers | How the pieces fit together, data flow, and data stores. |
 | [Build from Source](build-from-source.md) | Developers | Building, running, testing, and publishing the apps. |
-| [Releasing & Deployment](releasing.md) | Developers | Packaging Windows (portable + installer) and Linux (AppImage + .deb), and the release pipeline. |
+| [Releasing & Deployment](releasing.md) | Developers | Packaging Windows (portable + single-file + installer) and Linux (AppImage + .deb + .rpm), and the release pipeline. |
 | [Troubleshooting](troubleshooting.md) | Everyone | Fixes for common connection and removal issues. |
 | [Bridge HTTP API](../SNB%20Bridge/README.md) | Developers | The on-device bridge's full HTTP endpoint reference. |
 

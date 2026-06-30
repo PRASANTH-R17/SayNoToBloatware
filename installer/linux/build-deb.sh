@@ -15,6 +15,7 @@
 #   /usr/bin/say-no-to-bloatware         <- launcher wrapper
 #   /usr/share/applications/...desktop   <- menu entry
 #   /usr/share/icons/.../256x256/...png  <- icon
+#   /lib/udev/rules.d/...                <- Android USB (ADB) permissions
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -39,12 +40,15 @@ WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 ROOT="$WORK/pkgroot"
 
+UDEV_RULES="installer/linux/51-android-usb.rules"
+
 mkdir -p \
   "$ROOT/DEBIAN" \
   "$ROOT$INSTALL_DIR" \
   "$ROOT/usr/bin" \
   "$ROOT/usr/share/applications" \
-  "$ROOT/usr/share/icons/hicolor/256x256/apps"
+  "$ROOT/usr/share/icons/hicolor/256x256/apps" \
+  "$ROOT/lib/udev/rules.d"
 
 # App payload.
 cp -r "$PUBLISH_DIR/." "$ROOT$INSTALL_DIR/"
@@ -73,6 +77,16 @@ EOF
 
 # Icon.
 cp "$ICON_SRC" "$ROOT/usr/share/icons/hicolor/256x256/apps/$PKG.png"
+
+# udev rules so bundled adb can access USB devices without root.
+cp "$UDEV_RULES" "$ROOT/lib/udev/rules.d/70-$PKG-android.rules"
+chmod 644 "$ROOT/lib/udev/rules.d/70-$PKG-android.rules"
+
+cp "installer/linux/deb-postinst.sh" "$ROOT/DEBIAN/postinst"
+chmod 755 "$ROOT/DEBIAN/postinst"
+
+cp "installer/linux/deb-postrm.sh" "$ROOT/DEBIAN/postrm"
+chmod 755 "$ROOT/DEBIAN/postrm"
 
 # Installed-size (KB) for control metadata.
 INSTALLED_SIZE="$(du -sk "$ROOT$INSTALL_DIR" | cut -f1)"

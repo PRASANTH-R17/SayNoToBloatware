@@ -7,7 +7,7 @@ How to build, run, test, and publish SNB yourself.
 | Tool | Needed for | Notes |
 |------|------------|-------|
 | **.NET 10 SDK** | Desktop + CLI + backend | All projects target `net10.0`. There is no `global.json`, so the latest .NET 10 SDK is used. |
-| **Flutter SDK** (Dart `^3.11.5`) | Building the bridge APK | Only needed if you want to rebuild `snb_bridge.apk`; a prebuilt APK already ships in the repo. |
+| **Flutter SDK** (Dart `^3.11.5`) | Building the bridge APK | Required for local builds; CI builds it automatically for releases. Output goes to `Assets/Bridge/snb_bridge.apk`. |
 | **Git** | Cloning | — |
 
 You do **not** need to install Android platform-tools (ADB) separately — the desktop app bundles its
@@ -19,8 +19,10 @@ own `adb` binaries for Windows and Linux.
 Say No to Bloatware/
 ├── README.md            ← monorepo overview
 ├── docs/                ← this documentation
-├── Assets/              ← bundled runtime assets (ADB, DB, images, bridge APK source)
-├── Bridge/              ← snb_bridge.apk that the desktop deploys
+├── Assets/              ← bundled runtime assets (ADB, DB, images, bridge APK)
+│   └── Bridge/snb_bridge.apk
+├── Bridge/              ← snb_bridge.apk deployed at runtime (linked from Assets/Bridge/)
+├── installer/           ← Windows/Linux packaging scripts
 ├── SNB Bridge/          ← Flutter Android app (source)
 ├── SNB Desktop/         ← .NET solution
 │   ├── SNB.sln
@@ -64,8 +66,11 @@ dotnet test "SNB Desktop/tests/SNB.Backend.Tests/SNB.Backend.Tests.csproj"
 Publish profiles produce self-contained builds:
 
 ```bash
-# Windows (win-x64, self-contained) -> publish/desktop/win/
-dotnet publish "SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj" -p:PublishProfile=Windows
+# Windows folder publish (win-x64, self-contained) -> publish/desktop/win-portable/
+dotnet publish "SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj" -p:PublishProfile=WindowsPortable
+
+# Windows single-file (win-x64, self-contained) -> publish/desktop/win-single/SNB.Desktop.exe
+dotnet publish "SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj" -p:PublishProfile=WindowsSingleFile
 
 # Linux
 dotnet publish "SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj" -p:PublishProfile=Linux
@@ -99,8 +104,13 @@ flutter build apk --release
 
 The output is `SNB Bridge/build/app/outputs/flutter-apk/app-release.apk`. Copy it to
 `Assets/Bridge/snb_bridge.apk` (the path the desktop `.csproj` bundles from) so the next build picks up
-the new APK. If you bump the bridge's version, also update the expected bridge version the backend
-checks against, so the desktop knows to re-install it.
+the new APK. If you bump the bridge's version:
+
+1. Update the `version:` build number in [`SNB Bridge/pubspec.yaml`](../SNB%20Bridge/pubspec.yaml)
+   (the number after `+` is the Android `versionCode`).
+2. Set the matching `BridgeVersionCode` in
+   [`SnbBackendOptions.cs`](../SNB%20Desktop/src/SNB.Backend/DependencyInjection/SnbBackendOptions.cs)
+   so the desktop re-installs the APK when the bundled build is newer.
 
 See [SNB Bridge/README.md](../SNB%20Bridge/README.md) for the bridge's HTTP API and dashboard details.
 
@@ -110,5 +120,5 @@ The `tools/` folder contains helper scripts:
 
 - `tools/slice_logos.py` / `tools/export_assets.py` — produce app/launcher icons from master logos.
 - `tools/generate-brand-images/` — a Node project (`sharp` + `simple-icons`) that generates the
-  per-brand device images under `Assets/Images/`.
+  per-brand device images under `Assets/Images/`. From that folder: `npm install && npm run generate`.
 - `tools/brand-logos/` — drop-in folder for custom brand logo overrides (see its README).

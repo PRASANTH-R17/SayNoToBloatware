@@ -43,6 +43,15 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainViewModel = Services.GetRequiredService<MainWindowViewModel>();
+            var navigation = Services.GetRequiredService<INavigationService>();
+            var toast = Services.GetRequiredService<IToastService>();
+
+            navigation.Initialize(mainViewModel);
+            if (toast is ToastService toastService)
+            {
+                toastService.Initialize(mainViewModel);
+            }
+
             desktop.MainWindow = new MainWindow
             {
                 DataContext = mainViewModel,
@@ -91,6 +100,7 @@ public partial class App : Application
         services.AddSingleton<IDeviceCatalogService, DeviceCatalogService>();
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<IFileSaveService, FileSaveService>();
+        services.AddSingleton<IToastService, ToastService>();
 
         // Shell view model (singleton - one shell for the app lifetime).
         services.AddSingleton<MainWindowViewModel>();
@@ -104,6 +114,7 @@ public partial class App : Application
         // Dialog / panel view models (transient - fresh instance per show).
         services.AddTransient<AppDetailsViewModel>();
         services.AddTransient<ExportViewModel>();
+        services.AddTransient<ClearIconCacheConfirmationViewModel>();
         services.AddTransient<RemovalConfirmationViewModel>();
         services.AddTransient<RemovalProgressViewModel>();
         services.AddTransient<RemovalCompleteViewModel>();

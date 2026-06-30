@@ -6,5 +6,6 @@ public interface IIconCacheService
     int Count { get; }
     IReadOnlyList<string> GetMissingPackages(IReadOnlyList<string> installedPackages);
     Task<string?> SaveIconAsync(string packageName, byte[] pngBytes, CancellationToken cancellationToken = default);
+    Task<int> ClearAsync(CancellationToken cancellationToken = default);
     string IconsDirectory { get; }
 }

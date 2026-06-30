@@ -21,6 +21,7 @@ Full docs live in **[docs/](docs/README.md)**:
 - [User Guide](docs/user-guide.md) — every screen and feature.
 - [Architecture](docs/architecture.md) — how the components fit together.
 - [Build from Source](docs/build-from-source.md) — build, run, test, publish.
+- [Releasing & Deployment](docs/releasing.md) — packaging and the release pipeline.
 - [Troubleshooting](docs/troubleshooting.md) — fixes for common issues.
 
 ## Subprojects
@@ -41,8 +42,9 @@ USB debugging enabled, and scan. See [Getting Started](docs/getting-started.md).
 # Desktop client
 dotnet run --project "SNB Desktop/src/SNB.Desktop/SNB.Desktop.csproj"
 
-# Bridge app (optional — a prebuilt APK already ships in Bridge/)
+# Bridge app (build locally, or let CI build it for releases — see docs/releasing.md)
 cd "SNB Bridge"; flutter pub get; flutter build apk --release
+cp build/app/outputs/flutter-apk/app-release.apk ../Assets/Bridge/snb_bridge.apk
 ```
 
 See [Build from Source](docs/build-from-source.md) for the full developer setup.
@@ -53,10 +55,12 @@ See [Build from Source](docs/build-from-source.md) for the full developer setup.
 Say No to Bloatware/
 ├── README.md          ← this file
 ├── docs/              ← documentation
-├── Assets/            ← bundled runtime assets (ADB, database, device images)
-├── Bridge/            ← snb_bridge.apk deployed to devices
+├── Assets/            ← bundled runtime assets (ADB, database, device images, bridge APK)
+├── Bridge/            ← snb_bridge.apk deployed to devices (linked from Assets/Bridge/)
+├── installer/         ← Windows/Linux packaging scripts
 ├── SNB Bridge/        ← Flutter Android app (source)
-└── SNB Desktop/       ← .NET 10 solution (GUI + backend + CLI)
+├── SNB Desktop/       ← .NET 10 solution (GUI + backend + CLI)
+└── tools/             ← asset/logo generation scripts
 ```
 
 ## License

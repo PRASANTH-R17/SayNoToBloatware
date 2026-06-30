@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SNB.Backend.Services.Abstractions;
 using SNB.Desktop.Models;
+using SNB.Desktop.Services.Preferences;
 
 namespace SNB.Desktop.Services;
 
@@ -61,18 +62,25 @@ public sealed class DeviceCatalogService : IDeviceCatalogService
             progress?.Report("Initializing database...");
             await _databaseInitializer.InitializeAsync(cancellationToken);
 
-            progress?.Report("Syncing bloatware database...");
-            try
+            if (PreferencesService.Instance.Current.AutoUpdateDatabase)
             {
-                await _bloatwareSyncService.SyncAsync(cancellationToken);
+                progress?.Report("Syncing bloatware database...");
+                try
+                {
+                    await _bloatwareSyncService.SyncAsync(cancellationToken);
+                }
+                catch (HttpRequestException ex)
+                {
+                    _logger.LogWarning(ex, "Bloatware sync skipped; using local database.");
+                }
+                catch (TaskCanceledException) when (!cancellationToken.IsCancellationRequested)
+                {
+                    _logger.LogWarning("Bloatware sync skipped due to network timeout; using local database.");
+                }
             }
-            catch (HttpRequestException ex)
+            else
             {
-                _logger.LogWarning(ex, "Bloatware sync skipped; using local database.");
-            }
-            catch (TaskCanceledException) when (!cancellationToken.IsCancellationRequested)
-            {
-                _logger.LogWarning("Bloatware sync skipped due to network timeout; using local database.");
+                _logger.LogInformation("Bloatware sync skipped; auto-update disabled in settings.");
             }
 
             progress?.Report("Loading bloatware cache...");
